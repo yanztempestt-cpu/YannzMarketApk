@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>YANZZ STORE ULTIMATE</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#020617,#0f172a);
+  color:white;
+  text-align:center;
+}
+
+/* HEADER */
+.header{
+  padding:15px;
+  font-size:22px;
+  font-weight:bold;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(10px);
+  box-shadow:0 0 10px black;
+}
+
+/* LOCK */
+#lock{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:#020617;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:99;
+}
+
+/* BUTTON */
+button{
+  padding:10px 15px;
+  margin:5px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(45deg,#22c55e,#4ade80);
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 10px #22c55e;
+}
+
+/* MAIN */
+#main{display:none}
+
+/* GRID */
+.container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+  padding:10px;
+}
+
+/* CARD */
+.card{
+  background:rgba(30,41,59,0.7);
+  backdrop-filter:blur(10px);
+  padding:15px;
+  border-radius:15px;
+  transition:0.3s;
+  box-shadow:0 0 10px black;
+}
+
+.card:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #22c55e;
+}
+
+.price{
+  color:#4ade80;
+  font-weight:bold;
+}
+
+/* ADMIN */
+#admin{display:none;padding:10px}
+
+/* LOADING */
+#loading{
+  display:none;
+  font-size:14px;
+  opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">⚓ YANZZ STORE ULTIMATE</div>
+
+<!-- LOCK -->
+<div id="lock">
+<h2>🔒 WAJIB JOIN</h2>
+
+<a href="https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN" target="_blank">
+<button>Join Grup</button>
+</a>
+
+<a href="https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f" target="_blank">
+<button>Join Channel</button>
+</a>
+
+<button onclick="unlock()">Saya Sudah Join</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+<button onclick="order()">Order via WA</button>
+
+<div id="loading">Loading produk...</div>
+
+<div class="container" id="list"></div>
+
+<hr>
+
+<h3>Admin Login</h3>
+<input id="email" placeholder="Email"><br>
+<input id="password" type="password" placeholder="Password"><br>
+<button onclick="login()">Login</button>
+
+<div id="admin">
+<h3>👑 PANEL ADMIN</h3>
+
+<textarea id="produk" rows="6" style="width:90%" placeholder="Nama,Harga"></textarea><br>
+<button onclick="save()">💾 Simpan</button>
+
+</div>
+
+</div>
+
+<script>
+
+// 🔥 CONFIG (ISI PUNYA KAMU)
+const firebaseConfig = {
+  apiKey: "ISI_APIKEY",
+  authDomain: "ISI_DOMAIN",
+  projectId: "ISI_PROJECT_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// LOCK SYSTEM
+function unlock(){
+  localStorage.setItem("join","yes");
+  document.getElementById("lock").style.display="none";
+  document.getElementById("main").style.display="block";
+}
+
+// AUTO BYPASS JIKA SUDAH PERNAH JOIN
+if(localStorage.getItem("join") === "yes"){
+  unlock();
+}
+
+// ORDER
+function order(){
+  window.open("https://wa.me/6282164463311");
+}
+
+// LOAD PRODUK
+async function load(){
+  document.getElementById("loading").style.display="block";
+
+  let el = document.getElementById("list");
+  el.innerHTML="";
+
+  let snap = await db.collection("produk").get();
+
+  snap.forEach(doc=>{
+    let p = doc.data();
+    el.innerHTML += `
+    <div class="card">
+      <h3>${p.nama}</h3>
+      <div class="price">${p.harga}</div>
+    </div>`;
+  });
+
+  document.getElementById("loading").style.display="none";
+}
+
+load();
+
+// LOGIN ADMIN
+function login(){
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+
+  auth.signInWithEmailAndPassword(email,password)
+  .then(()=>{
+    document.getElementById("admin").style.display="block";
+    alert("Login berhasil");
+  })
+  .catch(()=>alert("Login gagal"));
+}
+
+// SAVE PRODUK
+async function save(){
+  let raw = document.getElementById("produk").value.split("\\n");
+
+  let old = await db.collection("produk").get();
+  old.forEach(doc=>doc.ref.delete());
+
+  raw.forEach(async r=>{
+    let [nama,harga] = r.split(",");
+    if(nama && harga){
+      await db.collection("produk").add({nama,harga});
+    }
+  });
+
+  alert("Tersimpan!");
+  load();
+}
+
+</script>
+
+</body>
+  </html>
