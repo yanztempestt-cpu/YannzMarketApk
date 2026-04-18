@@ -2,229 +2,225 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>YANZZ STORE ULTIMATE</title>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YANZZ MARKET</title>
 
 <style>
 body{
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg,#020617,#0f172a);
+  font-family:sans-serif;
   color:white;
   text-align:center;
+  background:url('bg.jpg') no-repeat center center;
+  background-size:cover;
 }
 
-/* HEADER */
-.header{
-  padding:15px;
-  font-size:22px;
-  font-weight:bold;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter:blur(10px);
-  box-shadow:0 0 10px black;
-}
-
-/* LOCK */
-#lock{
+body::before{
+  content:'';
   position:fixed;
   width:100%;
   height:100%;
-  background:#020617;
+  background:rgba(0,0,0,0.7);
+  z-index:-1;
+}
+
+.container{
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
-  z-index:99;
 }
 
-/* BUTTON */
-button{
-  padding:10px 15px;
-  margin:5px;
-  border:none;
+.card{
+  background:rgba(30,41,59,0.85);
+  padding:20px;
+  border-radius:20px;
+  width:320px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 0 20px rgba(255,0,150,0.5);
+}
+
+input{
+  width:90%;
+  padding:10px;
+  margin:8px;
   border-radius:10px;
-  background:linear-gradient(45deg,#22c55e,#4ade80);
+  border:none;
+}
+
+button{
+  width:90%;
+  padding:12px;
+  margin:8px;
+  border:none;
+  border-radius:12px;
+  background:#22c55e;
   color:white;
   cursor:pointer;
-  box-shadow:0 0 10px #22c55e;
-}
-
-/* MAIN */
-#main{display:none}
-
-/* GRID */
-.container{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
-  padding:10px;
-}
-
-/* CARD */
-.card{
-  background:rgba(30,41,59,0.7);
-  backdrop-filter:blur(10px);
-  padding:15px;
-  border-radius:15px;
-  transition:0.3s;
-  box-shadow:0 0 10px black;
-}
-
-.card:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #22c55e;
-}
-
-.price{
-  color:#4ade80;
   font-weight:bold;
 }
 
-/* ADMIN */
-#admin{display:none;padding:10px}
-
-/* LOADING */
-#loading{
-  display:none;
-  font-size:14px;
-  opacity:0.7;
+button:hover{
+  background:#16a34a;
 }
+
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
-<div class="header">⚓ YANZZ STORE ULTIMATE</div>
-
-<!-- LOCK -->
-<div id="lock">
-<h2>🔒 WAJIB JOIN</h2>
-
-<a href="https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN" target="_blank">
-<button>Join Grup</button>
-</a>
-
-<a href="https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f" target="_blank">
-<button>Join Channel</button>
-</a>
-
-<button onclick="unlock()">Saya Sudah Join</button>
+<!-- LOGIN -->
+<div id="loginPage" class="container">
+  <div class="card">
+    <h2>🔐 LOGIN</h2>
+    <input id="user" placeholder="Username">
+    <input id="pass" type="password" placeholder="Password">
+    <button onclick="login()">MASUK</button>
+  </div>
 </div>
 
 <!-- MAIN -->
-<div id="main">
+<div id="mainPage" class="container hidden">
+  <div class="card">
+    <h2>YANZZ STORE ⚓</h2>
 
-<button onclick="order()">Order via WA</button>
+    <button onclick="joinChannel()">JOIN WHATSAPP</button>
+    <button onclick="joinGroup()">JOIN GRUP</button>
+    <button onclick="openList()">LIST ITEM</button>
+    <button onclick="order()">ORDER</button>
+    <button onclick="openReward()">OPEN REWARD</button>
 
-<div id="loading">Loading produk...</div>
+    <div id="rewardBox" class="hidden">
+      <h3>🎁 REWARD</h3>
+      <p id="rewardText"></p>
+    </div>
 
-<div class="container" id="list"></div>
-
-<hr>
-
-<h3>Admin Login</h3>
-<input id="email" placeholder="Email"><br>
-<input id="password" type="password" placeholder="Password"><br>
-<button onclick="login()">Login</button>
-
-<div id="admin">
-<h3>👑 PANEL ADMIN</h3>
-
-<textarea id="produk" rows="6" style="width:90%" placeholder="Nama,Harga"></textarea><br>
-<button onclick="save()">💾 Simpan</button>
-
+    <div id="adminPanel" class="hidden">
+      <h3>👑 ADMIN PANEL</h3>
+      <input id="newReward" placeholder="Ubah reward">
+      <button onclick="saveReward()">UPDATE</button>
+    </div>
+  </div>
 </div>
 
+<!-- LIST PAGE -->
+<div id="listPage" class="container hidden">
+  <div class="card">
+    <h2>📦 PILIH KATEGORI</h2>
+
+    <button onclick="orderFile()">📁 FILE FF</button>
+    <button onclick="orderPanel()">🧩 PANEL</button>
+    <button onclick="orderWeb()">🌐 WEB & APK</button>
+
+    <button onclick="backHome()">⬅ KEMBALI</button>
+  </div>
 </div>
 
 <script>
 
-// 🔥 CONFIG (ISI PUNYA KAMU)
-const firebaseConfig = {
-  apiKey: "ISI_APIKEY",
-  authDomain: "ISI_DOMAIN",
-  projectId: "ISI_PROJECT_ID"
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// LOCK SYSTEM
-function unlock(){
-  localStorage.setItem("join","yes");
-  document.getElementById("lock").style.display="none";
-  document.getElementById("main").style.display="block";
+// AUTO LOGIN
+if(localStorage.getItem("role")==="member"){
+  showMain(false);
+}
+if(localStorage.getItem("role")==="admin"){
+  showMain(true);
 }
 
-// AUTO BYPASS JIKA SUDAH PERNAH JOIN
-if(localStorage.getItem("join") === "yes"){
-  unlock();
+// LOGIN
+function login(){
+  let u=user.value;
+  let p=pass.value;
+
+  if(u==="YanzzMEMBER" && p==="12345678"){
+    localStorage.setItem("role","member");
+    showMain(false);
+  }
+  else if(u==="OWNER_YANZZ" && p==="27051210#$+-"){
+    localStorage.setItem("role","admin");
+    showMain(true);
+  }
+  else{
+    alert("Login salah!");
+  }
 }
 
-// ORDER
+// SHOW MAIN
+function showMain(admin){
+  loginPage.style.display="none";
+  mainPage.classList.remove("hidden");
+
+  if(admin){
+    adminPanel.classList.remove("hidden");
+  }
+}
+
+// JOIN
+function joinChannel(){
+  localStorage.setItem("joinWA","1");
+  window.open("https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f");
+}
+
+function joinGroup(){
+  localStorage.setItem("joinGR","1");
+  window.open("https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN?mode=gi_t");
+}
+
+// ORDER WA
 function order(){
   window.open("https://wa.me/6282164463311");
 }
 
-// LOAD PRODUK
-async function load(){
-  document.getElementById("loading").style.display="block";
-
-  let el = document.getElementById("list");
-  el.innerHTML="";
-
-  let snap = await db.collection("produk").get();
-
-  snap.forEach(doc=>{
-    let p = doc.data();
-    el.innerHTML += `
-    <div class="card">
-      <h3>${p.nama}</h3>
-      <div class="price">${p.harga}</div>
-    </div>`;
-  });
-
-  document.getElementById("loading").style.display="none";
+// AUTO CHAT
+function orderFile(){
+  let msg = encodeURIComponent("BG MAU ORDER FILE\nMINTA LIST");
+  window.open("https://wa.me/6282164463311?text="+msg);
 }
 
-load();
-
-// LOGIN ADMIN
-function login(){
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
-
-  auth.signInWithEmailAndPassword(email,password)
-  .then(()=>{
-    document.getElementById("admin").style.display="block";
-    alert("Login berhasil");
-  })
-  .catch(()=>alert("Login gagal"));
+function orderPanel(){
+  let msg = encodeURIComponent("BG MAU ORDER PANEL\nMINTA");
+  window.open("https://wa.me/6282164463311?text="+msg);
 }
 
-// SAVE PRODUK
-async function save(){
-  let raw = document.getElementById("produk").value.split("\\n");
+function orderWeb(){
+  let msg = encodeURIComponent("BG MAU BUY KEBUTUHAN DIGITAL");
+  window.open("https://wa.me/6282164463311?text="+msg);
+}
 
-  let old = await db.collection("produk").get();
-  old.forEach(doc=>doc.ref.delete());
+// REWARD DEFAULT
+if(!localStorage.getItem("reward")){
+  localStorage.setItem("reward","DISKON 50% 🔥");
+}
 
-  raw.forEach(async r=>{
-    let [nama,harga] = r.split(",");
-    if(nama && harga){
-      await db.collection("produk").add({nama,harga});
-    }
-  });
+// OPEN REWARD
+function openReward(){
+  if(localStorage.getItem("joinWA") && localStorage.getItem("joinGR")){
+    rewardBox.classList.remove("hidden");
+    rewardText.innerText = localStorage.getItem("reward");
+  }else{
+    alert("Harus join dulu!");
+  }
+}
 
-  alert("Tersimpan!");
-  load();
+// ADMIN
+function saveReward(){
+  let val=newReward.value;
+  localStorage.setItem("reward",val);
+  alert("Updated!");
+}
+
+// NAVIGATION
+function openList(){
+  mainPage.classList.add("hidden");
+  listPage.classList.remove("hidden");
+}
+
+function backHome(){
+  listPage.classList.add("hidden");
+  mainPage.classList.remove("hidden");
 }
 
 </script>
 
 </body>
-  </html>
+</html>
