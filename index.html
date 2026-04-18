@@ -1,135 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>YANNZ STORE ⚓</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      color: white;
-      background-size: cover;
-    }
-
-    .overlay {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.1);
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 10px;
-    }
-
-    button {
-      padding: 10px;
-      border: none;
-      background: purple;
-      color: white;
-      border-radius: 5px;
-    }
-
-    input {
-      padding: 8px;
-      margin: 5px;
-      width: 90%;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>YANZZ MARKET</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="overlay"></div>
+<div class="overlay">
 
-<div class="container">
-  <h1>⚓ YANNZ STORE</h1>
+<h1>YANZZ MARKET ⚓</h1>
 
-  <h2>📦 Produk</h2>
-  <div id="products"></div>
+<div class="login-box">
+<h2>JOIN GATE</h2>
+<input type="text" id="user" placeholder="Username">
+<input type="password" id="pass" placeholder="Password">
+<button onclick="login()">Masuk</button>
+</div>
 
-  <hr>
+<div id="menu" class="hidden">
 
-  <h2>⚙️ Admin Panel (Simple)</h2>
-  <input id="name" placeholder="Nama Produk"><br>
-  <input id="price" placeholder="Harga"><br>
-  <input id="stock" placeholder="Stok"><br>
-  <button onclick="addProduct()">Tambah Produk</button>
+<button onclick="joinWA()">Join WhatsApp</button>
+<button onclick="joinGrub()">Join Grup</button>
+<button onclick="order()">Order</button>
+<button onclick="openReward()">OPEN REWARD</button>
 
-  <hr>
+<h3>LIST MENU</h3>
 
-  <h3>🎨 Ganti Background</h3>
-  <input id="bg" placeholder="Link Background"><br>
-  <button onclick="setBG()">Ganti BG</button>
+<button onclick="orderMsg('BG MAU ORDER FILE MINTA LIST')">FILE</button>
+<button onclick="orderMsg('BG MAU ORDER PANEL MINTA')">PANEL</button>
+<button onclick="orderMsg('BG MAU BUY KEBUTUHAN DIGITAL')">WEB & APK</button>
+
+<p id="status"></p>
 
 </div>
 
-<script>
-let products = [];
+</div>
 
-// load dari localStorage
-if(localStorage.getItem("products")){
-  products = JSON.parse(localStorage.getItem("products"));
-}
-
-// tampilkan produk
-function render(){
-  const el = document.getElementById("products");
-  el.innerHTML = "";
-
-  products.forEach(p => {
-    el.innerHTML += `
-      <div class="card">
-        <h3>${p.name}</h3>
-        <p>Harga: ${p.price}</p>
-        <p>Stok: ${p.stock}</p>
-        <button onclick="order('${p.name}', ${p.price})">Beli</button>
-      </div>
-    `;
-  });
-
-  localStorage.setItem("products", JSON.stringify(products));
-}
-
-// tambah produk
-function addProduct(){
-  const name = document.getElementById("name").value;
-  const price = document.getElementById("price").value;
-  const stock = document.getElementById("stock").value;
-
-  products.push({name, price, stock});
-  render();
-}
-
-// order WA
-function order(name, price){
-  const text = `Halo BG, saya mau order:\n\nProduk: ${name}\nHarga: ${price}`;
-  window.open(`https://wa.me/628XXXXXXXXXX?text=${encodeURIComponent(text)}`);
-}
-
-// background
-function setBG(){
-  const bg = document.getElementById("bg").value;
-  document.body.style.backgroundImage = `url(${bg})`;
-  localStorage.setItem("bg", bg);
-}
-
-// load bg
-if(localStorage.getItem("bg")){
-  document.body.style.backgroundImage = `url(${localStorage.getItem("bg")})`;
-}
-
-render();
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
