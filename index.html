@@ -1,225 +1,134 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YANZZ MARKET</title>
+  <title>YANNZ STORE ⚓</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      color: white;
+      background-size: cover;
+    }
 
-<style>
-body{
-  margin:0;
-  font-family:sans-serif;
-  color:white;
-  text-align:center;
-  background:url('bg.jpg') no-repeat center center;
-  background-size:cover;
-}
+    .overlay {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
 
-body::before{
-  content:'';
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.7);
-  z-index:-1;
-}
+    .container {
+      padding: 20px;
+    }
 
-.container{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+    .card {
+      background: rgba(255,255,255,0.1);
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 10px;
+    }
 
-.card{
-  background:rgba(30,41,59,0.85);
-  padding:20px;
-  border-radius:20px;
-  width:320px;
-  backdrop-filter:blur(10px);
-  box-shadow:0 0 20px rgba(255,0,150,0.5);
-}
+    button {
+      padding: 10px;
+      border: none;
+      background: purple;
+      color: white;
+      border-radius: 5px;
+    }
 
-input{
-  width:90%;
-  padding:10px;
-  margin:8px;
-  border-radius:10px;
-  border:none;
-}
-
-button{
-  width:90%;
-  padding:12px;
-  margin:8px;
-  border:none;
-  border-radius:12px;
-  background:#22c55e;
-  color:white;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-button:hover{
-  background:#16a34a;
-}
-
-.hidden{display:none}
-</style>
+    input {
+      padding: 8px;
+      margin: 5px;
+      width: 90%;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="loginPage" class="container">
-  <div class="card">
-    <h2>🔐 LOGIN</h2>
-    <input id="user" placeholder="Username">
-    <input id="pass" type="password" placeholder="Password">
-    <button onclick="login()">MASUK</button>
-  </div>
-</div>
+<div class="overlay"></div>
 
-<!-- MAIN -->
-<div id="mainPage" class="container hidden">
-  <div class="card">
-    <h2>YANZZ STORE ⚓</h2>
+<div class="container">
+  <h1>⚓ YANNZ STORE</h1>
 
-    <button onclick="joinChannel()">JOIN WHATSAPP</button>
-    <button onclick="joinGroup()">JOIN GRUP</button>
-    <button onclick="openList()">LIST ITEM</button>
-    <button onclick="order()">ORDER</button>
-    <button onclick="openReward()">OPEN REWARD</button>
+  <h2>📦 Produk</h2>
+  <div id="products"></div>
 
-    <div id="rewardBox" class="hidden">
-      <h3>🎁 REWARD</h3>
-      <p id="rewardText"></p>
-    </div>
+  <hr>
 
-    <div id="adminPanel" class="hidden">
-      <h3>👑 ADMIN PANEL</h3>
-      <input id="newReward" placeholder="Ubah reward">
-      <button onclick="saveReward()">UPDATE</button>
-    </div>
-  </div>
-</div>
+  <h2>⚙️ Admin Panel (Simple)</h2>
+  <input id="name" placeholder="Nama Produk"><br>
+  <input id="price" placeholder="Harga"><br>
+  <input id="stock" placeholder="Stok"><br>
+  <button onclick="addProduct()">Tambah Produk</button>
 
-<!-- LIST PAGE -->
-<div id="listPage" class="container hidden">
-  <div class="card">
-    <h2>📦 PILIH KATEGORI</h2>
+  <hr>
 
-    <button onclick="orderFile()">📁 FILE FF</button>
-    <button onclick="orderPanel()">🧩 PANEL</button>
-    <button onclick="orderWeb()">🌐 WEB & APK</button>
+  <h3>🎨 Ganti Background</h3>
+  <input id="bg" placeholder="Link Background"><br>
+  <button onclick="setBG()">Ganti BG</button>
 
-    <button onclick="backHome()">⬅ KEMBALI</button>
-  </div>
 </div>
 
 <script>
+let products = [];
 
-// AUTO LOGIN
-if(localStorage.getItem("role")==="member"){
-  showMain(false);
-}
-if(localStorage.getItem("role")==="admin"){
-  showMain(true);
+// load dari localStorage
+if(localStorage.getItem("products")){
+  products = JSON.parse(localStorage.getItem("products"));
 }
 
-// LOGIN
-function login(){
-  let u=user.value;
-  let p=pass.value;
+// tampilkan produk
+function render(){
+  const el = document.getElementById("products");
+  el.innerHTML = "";
 
-  if(u==="YanzzMEMBER" && p==="12345678"){
-    localStorage.setItem("role","member");
-    showMain(false);
-  }
-  else if(u==="OWNER_YANZZ" && p==="27051210#$+-"){
-    localStorage.setItem("role","admin");
-    showMain(true);
-  }
-  else{
-    alert("Login salah!");
-  }
+  products.forEach(p => {
+    el.innerHTML += `
+      <div class="card">
+        <h3>${p.name}</h3>
+        <p>Harga: ${p.price}</p>
+        <p>Stok: ${p.stock}</p>
+        <button onclick="order('${p.name}', ${p.price})">Beli</button>
+      </div>
+    `;
+  });
+
+  localStorage.setItem("products", JSON.stringify(products));
 }
 
-// SHOW MAIN
-function showMain(admin){
-  loginPage.style.display="none";
-  mainPage.classList.remove("hidden");
+// tambah produk
+function addProduct(){
+  const name = document.getElementById("name").value;
+  const price = document.getElementById("price").value;
+  const stock = document.getElementById("stock").value;
 
-  if(admin){
-    adminPanel.classList.remove("hidden");
-  }
+  products.push({name, price, stock});
+  render();
 }
 
-// JOIN
-function joinChannel(){
-  localStorage.setItem("joinWA","1");
-  window.open("https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f");
+// order WA
+function order(name, price){
+  const text = `Halo BG, saya mau order:\n\nProduk: ${name}\nHarga: ${price}`;
+  window.open(`https://wa.me/628XXXXXXXXXX?text=${encodeURIComponent(text)}`);
 }
 
-function joinGroup(){
-  localStorage.setItem("joinGR","1");
-  window.open("https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN?mode=gi_t");
+// background
+function setBG(){
+  const bg = document.getElementById("bg").value;
+  document.body.style.backgroundImage = `url(${bg})`;
+  localStorage.setItem("bg", bg);
 }
 
-// ORDER WA
-function order(){
-  window.open("https://wa.me/6282164463311");
+// load bg
+if(localStorage.getItem("bg")){
+  document.body.style.backgroundImage = `url(${localStorage.getItem("bg")})`;
 }
 
-// AUTO CHAT
-function orderFile(){
-  let msg = encodeURIComponent("BG MAU ORDER FILE\nMINTA LIST");
-  window.open("https://wa.me/6282164463311?text="+msg);
-}
-
-function orderPanel(){
-  let msg = encodeURIComponent("BG MAU ORDER PANEL\nMINTA");
-  window.open("https://wa.me/6282164463311?text="+msg);
-}
-
-function orderWeb(){
-  let msg = encodeURIComponent("BG MAU BUY KEBUTUHAN DIGITAL");
-  window.open("https://wa.me/6282164463311?text="+msg);
-}
-
-// REWARD DEFAULT
-if(!localStorage.getItem("reward")){
-  localStorage.setItem("reward","DISKON 50% 🔥");
-}
-
-// OPEN REWARD
-function openReward(){
-  if(localStorage.getItem("joinWA") && localStorage.getItem("joinGR")){
-    rewardBox.classList.remove("hidden");
-    rewardText.innerText = localStorage.getItem("reward");
-  }else{
-    alert("Harus join dulu!");
-  }
-}
-
-// ADMIN
-function saveReward(){
-  let val=newReward.value;
-  localStorage.setItem("reward",val);
-  alert("Updated!");
-}
-
-// NAVIGATION
-function openList(){
-  mainPage.classList.add("hidden");
-  listPage.classList.remove("hidden");
-}
-
-function backHome(){
-  listPage.classList.add("hidden");
-  mainPage.classList.remove("hidden");
-}
-
+render();
 </script>
 
 </body>
