@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YANZZ MARKET ⚓</title>
+
+<style>
+body{margin:0;font-family:sans-serif;background:black;color:white;overflow:hidden}
+#stars{position:fixed;width:100%;height:100%;z-index:-1}
+
+.page{display:none;padding:20px}
+.active{display:block}
+
+input,button{
+ width:90%;padding:10px;margin:5px;
+ border:none;border-radius:10px
+}
+
+button{
+ background:linear-gradient(45deg,#00f,#0ff);
+ color:white;box-shadow:0 0 10px cyan
+}
+
+.card{
+ background:rgba(255,255,255,0.05);
+ backdrop-filter:blur(10px);
+ padding:15px;border-radius:15px;margin:10px 0
+}
+
+/* GRID */
+.menu-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+}
+.menu-btn{
+ padding:15px;text-align:center;
+ border-radius:12px;background:#111;
+ cursor:pointer;box-shadow:0 0 10px cyan
+}
+.menu-btn.done{
+ background:green;box-shadow:0 0 15px lime
+}
+
+/* LIST */
+#searchBox{
+ width:95%;padding:10px;border-radius:10px;border:none;margin-bottom:10px
+}
+
+.scrollBox{
+ max-height:60vh;
+ overflow-y:auto;
+ padding-right:5px;
+}
+
+.scrollBox::-webkit-scrollbar{width:5px}
+.scrollBox::-webkit-scrollbar-thumb{
+ background:cyan;border-radius:10px
+}
+
+.item{
+ padding:10px;margin:5px 0;
+ background:#1a1a1a;border-radius:10px;
+ cursor:pointer
+}
+.item:hover{box-shadow:0 0 10px cyan}
+.best{color:yellow}
+
+/* RESELLER */
+.resellerBox{
+ text-align:center;padding:10px;
+ background:linear-gradient(45deg,red,orange);
+ border-radius:15px;box-shadow:0 0 15px red
+}
+.resellerBtn{
+ background:black;padding:10px;
+ border-radius:10px;margin-top:10px;cursor:pointer
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<!-- LOGIN -->
+<div id="login" class="page active">
+<h2>🔒 LOGIN</h2>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()">MASUK</button>
+<button onclick="showPage('register')">DAFTAR</button>
+</div>
+
+<!-- REGISTER -->
+<div id="register" class="page">
+<h2>📝 DAFTAR</h2>
+<input id="regUser" placeholder="Username">
+<input id="regPass" placeholder="Password">
+<button onclick="register()">DAFTAR</button>
+</div>
+
+<!-- GATE -->
+<div id="gate" class="page">
+<h3 id="welcomeUser"></h3>
+
+<div class="menu-grid">
+<div class="menu-btn" onclick="checkJoin('fjb',this)">JOIN FJB</div>
+<div class="menu-btn" onclick="checkJoin('sal',this)">FOLLOW SALL WA</div>
+<div class="menu-btn" onclick="checkJoin('ig',this)">FOLLOW IG</div>
+<div class="menu-btn" onclick="checkJoin('yt',this)">SUBSCRIBE YOUTUBE</div>
+</div>
+
+<div class="card">
+<input id="searchBoxMain" placeholder="🔍 Cari produk..." onkeyup="goSearch()">
+<button id="openBtn" onclick="openList()" disabled>🔒 HARUS JOIN DULU</button>
+</div>
+
+<div class="card">
+<h3>🎁 REWARD</h3>
+<p>Selesaikan semua untuk unlock 🔥</p>
+</div>
+
+<button onclick="logout()">LOGOUT</button>
+</div>
+
+<!-- LIST FULL -->
+<div id="list" class="page">
+<h2>⚓ WTS KEBUTUHAN DIGITAL BY YANNZ</h2>
+
+<input id="searchBox" placeholder="🔍 Cari..." onkeyup="filterList()">
+
+<div class="scrollBox">
+
+<div class="item">-----------------------------------</div>
+<div class="item">• TOP UP ALL GAME MURAH/TERJANGKAU</div>
+<div class="item" onclick="order('TOP UP WDP ML 28K')">WDP ML 28K</div>
+<div class="item" onclick="order('TOP UP FF')">FF</div>
+<div class="item" onclick="order('TOP UP ML')">ML</div>
+<div class="item">DLL</div>
+
+<div class="item">_____________________</div>
+<div class="item">FILE EPEP 😈</div>
+
+<div class="item">PANEL</div>
+
+<div class="item" onclick="order('DRIP CLIENT V1 15K')">DRIP CLIENT V1 ~30K~ 15K</div>
+<div class="item" onclick="order('DRIP CLIENT V4 20K')">DRIP CLIENT V4 ~40K~ 20K</div>
+<div class="item" onclick="order('DRAGON MODS V10 25K')">DRAGON MODS V10 25K</div>
+<div class="item" onclick="order('ZURA XAPK 30K')">ZURA.XAPK 30K</div>
+<div class="item" onclick="order('PANEL EASY DRAG 25K')">PANEL EASY DRAG 25K</div>
+<div class="item" onclick="order('AIM GOOD 15K')">AIM GOOD 15K</div>
+<div class="item" onclick="order('FF7HX SENSITIVITY 5K')">FF7HX SENSIVITY 5K</div>
+
+<div class="item best" onclick="order('CIT VVIP')">CIT MOD MENU VVIP TERGACOR</div>
+
+<div class="item">_____________________</div>
+<div class="item">FILE FF</div>
+
+<div class="item" onclick="order('REGE BRUTALITY 10K')">REGE BRUTALITY 10K</div>
+<div class="item" onclick="order('AIM STABILIZER V4 15K')">AIM STABILIZER V4 15K</div>
+<div class="item" onclick="order('GS FILE 5K')">GS FILE 5K</div>
+<div class="item" onclick="order('LIB FILE 5K')">LIB FILE 5K</div>
+<div class="item" onclick="order('FIX LAG V1 5K')">FIX LAG V1 5K</div>
+<div class="item" onclick="order('FIX LAG V2 10K')">FIX LAG V2 10K</div>
+
+<div class="item best" onclick="order('BODY HS 40K')">BODY HS ~50K~ 40K</div>
+<div class="item" onclick="order('BADAN HS V2 20K')">BADAN HS V2 20K</div>
+
+<div class="item" onclick="order('AIMLOCK BEST SELLER 5K')">AIMLOCK BEST SELLER 5K</div>
+<div class="item" onclick="order('AIMLOCK 98% 4K')">AIMLOCK 98% 4K</div>
+<div class="item" onclick="order('AIMLOCK 75% 3K')">AIMLOCK 75% 3K</div>
+
+<div class="item" onclick="order('HEADLOCK 80% 5K')">HEADLOCK 80% 5K</div>
+<div class="item" onclick="order('XIT DRAG HS 98% 40K')">XIT DRAG HS 98% 40K</div>
+
+<div class="item">_____________________</div>
+<div class="item">WEB & APK</div>
+
+<div class="item" onclick="order('APK PUSH KONTAK 5K')">APK PUSH KONTAK 5K</div>
+<div class="item" onclick="order('APK PUSH MEMBER 3K')">APK PUSH MEMBER 3K</div>
+<div class="item" onclick="order('E KTP 2K')">E KTP 2K</div>
+<div class="item" onclick="order('APK KENON WA 3K')">APK KENON WA 3K</div>
+<div class="item" onclick="order('APK QRIS MERAH 3K')">APK QRIS MERAH 3K</div>
+<div class="item" onclick="order('APK BIOSKOP 2K')">APK BIOSKOP 2K</div>
+<div class="item" onclick="order('APK QRIS 1K')">APK QRIS 1K</div>
+<div class="item" onclick="order('APK QRIS NO PAJAK 3K')">APK QRIS NO PAJAK 3K</div>
+<div class="item" onclick="order('APK JB 3K')">APK JB 3K</div>
+<div class="item" onclick="order('JASA BUG WA 5K')">JASA BUG WA 5K</div>
+<div class="item" onclick="order('APK LOGO 2K')">APK LOGO 2K</div>
+<div class="item" onclick="order('WEB NOKOS 5K')">WEB NOKOS 5K</div>
+<div class="item" onclick="order('WEB SUNTIK ALL SOSMED 2K')">WEB SUNTIK ALL SOSMED 2K</div>
+<div class="item" onclick="order('APK SW IN GB ORANG 5K')">APK SW IN GB ORANG 5K</div>
+<div class="item" onclick="order('DELTA 1K')">DELTA 1K</div>
+
+<div class="item">_____________________</div>
+
+<div class="item best" onclick="orderReseller()">💼 ORDER RESELLER 165K</div>
+
+</div>
+
+<button onclick="showPage('gate')">⬅ KEMBALI</button>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="page">
+<h2>👑 ADMIN PANEL</h2>
+<button onclick="logout()">LOGOUT</button>
+</div>
+
+<script>
+let users=JSON.parse(localStorage.getItem("users")||"[]");
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+}
+
+function register(){
+ let u=val("regUser"),p=val("regPass");
+ if(users.find(x=>x.user===u))return alert("Username sudah ada!");
+ users.push({user:u,pass:p});
+ localStorage.setItem("users",JSON.stringify(users));
+ localStorage.setItem("loginUser",u);
+ loadUser();showPage("gate");
+}
+
+function login(){
+ let u=val("user"),p=val("pass");
+
+ if(u==="OWNER_YANZZ"&&p==="27051210#$+-"){
+  showPage("admin");return;
+ }
+
+ let acc=users.find(x=>x.user===u&&x.pass===p);
+ if(acc){
+  localStorage.setItem("loginUser",u);
+  loadUser();showPage("gate");
+ }else alert("Salah");
+}
+
+window.onload=function(){
+ let u=localStorage.getItem("loginUser");
+ if(!u)return;
+ if(u==="OWNER_YANZZ"){showPage("admin");return;}
+ loadUser();showPage("gate");
+}
+
+function loadUser(){
+ document.getElementById("welcomeUser").innerText="👤 "+localStorage.getItem("loginUser");
+}
+
+function logout(){
+ localStorage.clear();
+ location.reload();
+}
+
+/* JOIN LOCK */
+let joinStatus={fjb:false,sal:false,ig:false,yt:false};
+
+function checkJoin(type,el){
+ if(type==="fjb")window.open("https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN");
+ if(type==="sal")window.open("https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f");
+ if(type==="ig")window.open("https://www.instagram.com/yanzzzmarket");
+ if(type==="yt")window.open("https://youtube.com/@king_of_file");
+
+ joinStatus[type]=true;
+ el.classList.add("done");
+ el.innerText+=" ✔";
+
+ if(joinStatus.fjb&&joinStatus.sal&&joinStatus.ig&&joinStatus.yt){
+  let btn=document.getElementById("openBtn");
+  btn.disabled=false;
+  btn.innerText="🚀 MASUK LIST";
+ }
+}
+
+function openList(){showPage("list")}
+
+/* SEARCH */
+function filterList(){
+ let v=document.getElementById("searchBox").value.toLowerCase();
+ document.querySelectorAll(".item").forEach(i=>{
+  if(v===""){i.style.display="block";}
+  else{i.style.display=i.innerText.toLowerCase().includes(v)?"block":"none";}
+ });
+}
+
+function goSearch(){
+ let v=document.getElementById("searchBoxMain").value;
+ showPage("list");
+ setTimeout(()=>{
+  document.getElementById("searchBox").value=v;
+  filterList();
+ },300);
+}
+
+/* ORDER */
+function order(nama){
+ let u=localStorage.getItem("loginUser");
+ window.open(`https://wa.me/6282164463311?text=${encodeURIComponent(
+`ASSALAMUALAIKUM MIN
+SAYA INGIN MEMBELI ${nama}
+USERNAME: ${u}`)}`);
+}
+
+function orderReseller(){
+ window.open(`https://wa.me/6282164463311?text=ORDER RESELLER 165K`);
+}
+
+/* STARS */
+let c=document.getElementById("stars"),ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+let stars=[];
+for(let i=0;i<100;i++){
+ stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2});
+}
+function draw(){
+ ctx.clearRect(0,0,c.width,c.height);
+ ctx.fillStyle="white";
+ stars.forEach(s=>{
+  ctx.beginPath();
+  ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+  ctx.fill();
+  s.y+=1;
+  if(s.y>c.height)s.y=0;
+ });
+ requestAnimationFrame(draw);
+}
+draw();
+
+function val(id){return document.getElementById(id).value}
+</script>
+
+</body>
+</html>
