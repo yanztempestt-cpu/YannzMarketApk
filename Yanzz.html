@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YanzzMarket ⚓ Ultra</title>
+
+<style>
+body{
+ margin:0;
+ font-family:sans-serif;
+ color:white;
+ overflow:hidden;
+}
+
+/* VIDEO BACKGROUND */
+#bgVideo{
+ position:fixed;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ z-index:-1;
+ filter:brightness(0.4) blur(2px);
+}
+
+/* overlay */
+.overlay{
+ position:fixed;
+ width:100%;
+ height:100%;
+ background:radial-gradient(circle,#1a0033aa,#000000dd);
+ z-index:-1;
+}
+
+/* page */
+.page{
+ display:none;
+ padding:20px;
+ height:100vh;
+ overflow:auto;
+ animation:fade 0.5s;
+}
+.active{display:block}
+
+@keyframes fade{
+ from{opacity:0;transform:translateY(10px)}
+ to{opacity:1}
+}
+
+/* logo */
+.logo{
+ width:90px;
+ height:90px;
+ border-radius:50%;
+ display:block;
+ margin:auto;
+ box-shadow:0 0 20px red,0 0 40px purple;
+ animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+ from{box-shadow:0 0 10px red}
+ to{box-shadow:0 0 30px purple}
+}
+
+/* title */
+.title{
+ text-align:center;
+ font-size:22px;
+ background:linear-gradient(45deg,red,purple);
+ -webkit-background-clip:text;
+ color:transparent;
+ margin-bottom:10px;
+}
+
+/* input */
+input{
+ width:90%;
+ padding:10px;
+ margin:6px auto;
+ display:block;
+ border:none;
+ border-radius:10px;
+ background:#000000aa;
+ color:white;
+ backdrop-filter:blur(5px);
+}
+
+/* button */
+.btn{
+ width:90%;
+ padding:12px;
+ margin:6px auto;
+ border:none;
+ border-radius:12px;
+ background:linear-gradient(45deg,#ff0033,#8000ff);
+ color:white;
+ box-shadow:0 0 10px purple;
+ transition:0.2s;
+}
+.btn:active{transform:scale(0.95)}
+
+/* grid */
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ margin-top:15px;
+}
+
+/* card */
+.card{
+ background:#000000aa;
+ padding:15px;
+ border-radius:15px;
+ text-align:center;
+ backdrop-filter:blur(6px);
+ box-shadow:0 0 15px purple;
+ transition:0.2s;
+}
+.card:hover{
+ transform:scale(1.05);
+ box-shadow:0 0 25px red;
+}
+
+/* list */
+.item{
+ padding:10px;
+ margin:5px;
+ background:#000000aa;
+ border-radius:10px;
+ backdrop-filter:blur(6px);
+ box-shadow:0 0 10px red;
+ cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO BG -->
+<video id="bgVideo" autoplay muted loop playsinline>
+<source src="video_yanzz.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<!-- LOGIN -->
+<div id="login" class="page active">
+<img src="yanzz.jpg" class="logo">
+<div class="title">YanzzMARKET ULTRA</div>
+
+<input id="user" placeholder="Username">
+<input id="pass" placeholder="Password">
+
+<button class="btn" onclick="login()">MASUK</button>
+</div>
+
+<!-- MENU -->
+<div id="menu" class="page">
+<img src="yanzz.jpg" class="logo">
+
+<div class="grid">
+<div class="card" onclick="showPage('list')">OPEN LIST</div>
+<div class="card" onclick="wa('Saya mau order')">ORDER CEPAT</div>
+</div>
+</div>
+
+<!-- LIST -->
+<div id="list" class="page">
+<h3>LIST LENGKAP</h3>
+<div id="listContainer"></div>
+<button class="btn" onclick="showPage('menu')">KEMBALI</button>
+</div>
+
+<script>
+
+// LOGIN
+function login(){
+ if(user.value==="YanzzMEMBER" && pass.value==="12345678"){
+  showPage("menu")
+ }else{
+  alert("Login gagal")
+ }
+}
+
+// NAV
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+ document.getElementById(id).classList.add('active')
+}
+
+// WA
+function wa(t){
+ let msg="ASSALAMUALAIKUM BG "+t;
+ window.open("https://wa.me/6282164453311?text="+encodeURIComponent(msg))
+}
+
+// LIST SUPER FULL
+const data = `WTS KEBUTUHAN DIGITAL BY YANNZ⚓
+-----------------------------------
+TOP UP ALL GAME
+WDP ML 28K
+FF
+ML
+DLL
+
+FILE EPEP
+DRIP CLIENT V1 15K
+DRIP CLIENT V4 20K
+DRAGON MODS V10 25K
+ZURA.XAPK 30K
+PANEL EASY DRAG 25K
+AIM GOOD 15K
+FF7HX 5K
+
+CIT VVIP
+1H 25K
+3H 40K
+5H 60K
+PERMANEN 200K
+
+FILE FF
+FSA VIP 10K
+AIMBOT 15K
+REGE 10K
+GS FILE 5K
+LIB FILE 5K
+FIX LAG 5K
+BODY HS 40K
+AIMLOCK 5K
+
+WEB & APK
+APK PUSH 5K
+E-KTP 2K
+APK LOGO 2K
+WEB NOKOS 5K
+SUNTIK SOSMED 2K
+
+RESELLER
+MURFILE 200K
+MURWEB 10K
+MURSUN 5K
+MURKOS 5K
+MURAP 10K
+
+AM PREMIUM 3K
+NOKOS VIP 10K`;
+
+const c = document.getElementById("listContainer");
+
+data.split("\n").forEach(t=>{
+ if(t.trim()!=""){
+  let d=document.createElement("div");
+  d.className="item";
+  d.innerText=t;
+  d.onclick=()=>wa(t);
+  c.appendChild(d);
+ }
+});
+
+</script>
+
+</body>
+  </html>
