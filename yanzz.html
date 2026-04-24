@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STORE BY YANZZ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+        }
+        .glow {
+            box-shadow: 0 0 15px #00fff2, 0 0 30px #00fff2;
+        }
+        .btn-custom {
+            background: linear-gradient(45deg, #ff0057, #00fff2);
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0,255,242,0.7);
+        }
+        input, select, textarea {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #00fff2;
+            color: white;
+        }
+        input::placeholder {
+            color: #aaa;
+        }
+        video {
+            border: 2px solid #00fff2;
+            box-shadow: 0 0 25px rgba(0,255,242,0.5);
+        }
+        .admin-panel {
+            background: rgba(0,0,0,0.5);
+            border: 2px solid #ffd700;
+        }
+        .stok-ada { color: #0f0; }
+        .stok-sold { color: #f00; text-decoration: line-through; }
+        .list-box {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid #00fff2;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+
+    <!-- HALAMAN 1: LOGIN -->
+    <div id="page1" class="container mx-auto max-w-md text-center">
+        <img src="https://i.imgur.com/9Z7X7ZL.png" alt="Logo Yanzz" class="w-32 h-32 mx-auto object-cover rounded-full border-4 border-cyan-400 glow mb-6">
+        <video class="w-full rounded-lg mb-8" autoplay loop muted>
+            <source src="https://i.imgur.com/8Z7X7ZL.mp4" type="video/mp4">
+        </video>
+        <div class="space-y-4 mb-8">
+            <input type="text" id="user" placeholder="USERNAME" class="w-full p-3 rounded-lg text-center text-xl">
+            <input type="password" id="pass" placeholder="PASSWORD" class="w-full p-3 rounded-lg text-center text-xl">
+        </div>
+        <div class="flex gap-4 justify-center">
+            <button onclick="history.back()" class="px-6 py-3 rounded-lg bg-red-600 font-bold">
+                <i class="fas fa-arrow-left"></i> KEMBALI
+            </button>
+            <button onclick="login()" class="px-6 py-3 rounded-lg btn-custom text-black font-bold">
+                BERIKUTNYA <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- HALAMAN 2: MENU UTAMA -->
+    <div id="page2" class="container mx-auto max-w-md text-center hidden">
+        <img src="https://i.imgur.com/9Z7X7ZL.png" alt="Logo Yanzz" class="w-24 h-24 mx-auto object-cover rounded-full border-4 border-cyan-400 glow mb-4">
+        <video class="w-full rounded-lg mb-6" autoplay loop muted>
+            <source src="https://i.imgur.com/8Z7X7ZL.mp4" type="video/mp4">
+        </video>
+        <h2 class="text-2xl font-bold mb-6 text-cyan-300">PILIH MENU</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <a href="https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN?mode=gi_t" target="_blank" class="p-4 rounded-lg bg-green-600 font-bold btn-custom">
+                <i class="fab fa-whatsapp"></i> JOIN FJB
+            </a>
+            <a href="https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f" target="_blank" class="p-4 rounded-lg bg-green-700 font-bold btn-custom">
+                <i class="fas fa-broadcast-tower"></i> FOLLOW SALURAN
+            </a>
+            <a href="https://www.instagram.com/yanzzzmarket?igsh=MTZiajloaWFjenhjdQ==" target="_blank" class="p-4 rounded-lg bg-pink-600 font-bold btn-custom">
+                <i class="fab fa-instagram"></i> FOLLOW IG
+            </a>
+            <a href="https://youtube.com/@king_of_file?si=Y2JW5MF14IJ3QtyD" target="_blank" class="p-4 rounded-lg bg-red-600 font-bold btn-custom">
+                <i class="fab fa-youtube"></i> SUBSCRIBE YT
+            </a>
+            <button onclick="openList()" class="col-span-2 p-4 rounded-lg bg-yellow-500 text-black font-bold btn-custom">
+                <i class="fas fa-list"></i> OPEN LIST
+            </button>
+            <button onclick="openPage(3)" class="col-span-2 p-4 rounded-lg bg-blue-600 font-bold btn-custom">
+                <i class="fas fa-store"></i> KEPERLUAN JB
+            </button>
+        </div>
+    </div>
+
+    <!-- HALAMAN LIST PRODUK -->
+    <div id="pageList" class="container mx-auto max-w-md text-center hidden">
+        <h2 class="text-2xl font-bold mb-6 text-yellow-400">📜 LIST HARGA</h2>
+        <div class="list-box p-4 rounded-xl text-left text-sm whitespace-pre-line">
+<code id="isiList">
+`WTS KEBUTUHAN DIGITAL BY YANNZ⚓`
+
+-----------------------------------
+•TOP UP ALL GAME MURAH/TERJANGKAU 
+-WDP ML 28K
+-FF
+-ML 
+-DLL
+_____________________
+FILE EPEP 😈
+
+PANEL
+________________
+-DRIP CLINET V1 ~30K~ 15k
+ PERMANEN "NOT VIP"
+-----------------------------
+-DRIP CLINT V4 ~40K~ 20k NOT VIP
+----------------------------------
+-DRAGON MODS V10 
+25K
+----------------------------------
+-ZURA.XAPK
+30K
+----------------------------------
+-PANEL EASY DRAG 50% 25K
+----------------------------------
+AIM GOOD [MOD MENU] 15K
+----------------------------------
+FF7HX SENSIVITY 5K
+----------------------------------
+CIT MOD MENU VVIP TERGACOR
+1day 25k
+3day 40k
+5day 60k
+PROMO PERMANEN CHIT
+200K AJA
+RESELLER 250K
+#PASTINYA ANTI BAND,BL,SC
+_____________________
+           FILE FF 
+_____________________
+
+-FSA VIP GACOR 10K
+
+-AIMBOT BEST SELLER 15K
+
+-REGE BRUTALITY 10K
+
+-GS FILE 5K
+
+-LIB FILE 5K
+
+-FIX LAG V1 5K
+-FIX LAG V2 10K
+
+-BODY HS ~50K~ 40K
+-BADAN HS V2 20K
+-BODY LOCK HS 50%
+10K
+
+-DRAG HS BLOOD 5K
+
+-AIMLOCK BEST SELLER ~10K~ 5k
+
+-AIMLOCK 98% ~5K~ 4k
+-AIMLOCK 75% 3K
+
+-STABILIZER V1 10K
+-STABILIZER V4 15K
+
+-HEADLOCK 75% 5K
+-HEADLOCK 85% 20K
+-HEADLOCK 98% 50K
+
+-XIT DRAG HS 98% 50K
+
+-BODY LOCK V1 5K
+-BODY LOCK V2 15K
+-BODY LOCK V3 30K
+
+-EASY DRAG HS 90% 40K
+-EASY DRAG HS 85K
+[BEST SELLER] 30K
+
+-KING DRAG HS 2GB 💰👑 75k
+
+-CONFIG MAMBA-OPM 2K
+-BLU INVISIBLE SHOTGUNE 2K
+
+ANTI BL ANTI SC ANTI BAN
+
+_____________________
+WEB & APK
+
+-APK PUSH KONTAK 5K
+-APK PUSH MEMBER 3K ANTI MEMBER BOT
+-E KTP 2K
+-APK KENON WA 3K
+-APK Q RIS MERAH 3K
+-APK BIOSKOP 2K
+-APK Q RIS 1K
+-APK Q RIS NO PAJAK 3K
+-APK JB 3K
+-JASA BUG WA 5k
+-APK LOGO 2k
+-WEB NOKOS 5K
+-WEB SUNTIK ALL SOSMED 2K
+-APK SW IN GB ORANG 5K
+-DELTA 1K
+-APK PS2 2K
+
+*_OPEN MURFILE_* 200K
+BISA JADI KANG FILE 
+AKSES SEMUA FILE & PANEL GW
+RESELLER FILE & PANEL
+[DRIP CLINT VVIP TIDAK TERMASUK]
+
+*_OPEN MURWEB_* 10K
+AKSES ALL WEB 
+RESELLER WEB
+
+*_OPEN MURSUN_* 5K
+BISS SUNTIK ALL SOSMED
+
+*_OPEN MURKOS_* 5K
+BISA JADI KANG NOKOS
+*_OPEN MURAP_* 10K
+AKSES ALL APP
+JADI RESELLER APP
+
+KEUNTUNGANNYA LAIN APA BG? TANYA AJ DI PM
+
+`AM PREMIUM 1 TAHUN 3K`
+
+`NOKOS 10K VIP`
+
+`PASTI TUTOR YA TOT`
+
+PEMBELIAN 
+DIRECT GAS
+MC GAS ASAL EX YA TOT , PEMBELIAN MENGUNAKAN MC MINIMAL 50K
+MINAT PM GW WOK 
+
+JASA SUNTIK ALL SOSMED LIST DI PM
+</code>
+        </div>
+        <a href="https://wa.me/6282164453311?text=ASSALAMUALAIKUM%20BG%20AKU%20MAU%20ORDER%20ISI%20SENDIRI" target="_blank" class="mt-4 inline-block px-6 py-3 rounded-lg bg-green-600 font-bold btn-custom">
+            <i class="fab fa-whatsapp"></i> ORDER SEKARANG
+        </a>
+        <br>
+        <button onclick="openPage(2)" class="mt-4 px-6 py-3 rounded-lg bg-gray-700 font-bold">KEMBALI</button>
+    </div>
+
+    <!-- HALAMAN 3: KEPERLUAN JB -->
+    <div id="page3" class="container mx-auto max-w-md text-center hidden">
+        <img src="https://i.imgur.com/9Z7X7ZL.png" alt="Logo Yanzz" class="w-24 h-24 mx-auto object-cover rounded-full border-4 border-cyan-400 glow mb-4">
+        <video class="w-full rounded-lg mb-6" autoplay loop muted>
+            <source src="https://i.imgur.com/8Z7X7ZL.mp4" type="video/mp4">
+        </video>
+        <h2 class="text-2xl font-bold mb-6 text-cyan-300">KEPERLUAN JB</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <a href="https://wa.me/6282164453311?text=ASSALAMUALAIKUM%20BG%20AKU%20MAU%20SAVE%20ADMIN" target="_blank" class="p-3 rounded-lg bg-green-500 font-bold btn-custom">
+                💾 SAVE ADMIN
+            </a>
+            <a href="https://wa.me/6282164453311?text=BG%20MAU%20BYAR%20AIR" target="_blank" class="p-3 rounded-lg bg-blue-500 font-bold btn-custom">
+                💧 BAYAR AIR
+            </a>
+            <a href="https://wa.me/6282164453311?text=BG%20MAU%20BYAR%20PLN" target="_blank" class="p-3 rounded-lg bg-yellow-500 text-black font-bold btn-custom">
+                ⚡ BAYAR PLN
+            </a>
+            <button onclick="openPage(4)" class="p-3 rounded-lg bg-purple-600 font-bold btn-custom">
+                💳 TOP UP
+            </button>
+            <button onclick="openPage(5)" class="p-3 rounded-lg bg-orange-500 font-bold btn-custom">
+                🚀 JPM
+            </button>
+            <button onclick="openPage(6)" class="p-3 rounded-lg bg-pink-600 font-bold btn-custom">
+                📲 SUNTIK SOSMED
+            </button>
+            <a href="https://wa.me/6282164453311?text=BG%20MAU%20ORDER%20LOGO%20MINTA%20CONTOH" target="_blank" class="p-3 rounded-lg bg-indigo-500 font-bold btn-custom">
+                🎨 ORDER LOGO
+            </a>
+            <a href="https://wa.me/6282164453311?text=BG%20MAU%20ORDER%20NOKOS%20VVIP%2010K%20NEGARA...." target="_blank" class="p-3 rounded-lg bg-red-500 font-bold btn-custom">
+                🆔 NOKOS VVIP
+            </a>
+        </div>
+        <button onclick="openPage(2)" class="mt-6 px-6 py-3 rounded-lg bg-gray-700 font-bold">
+            <i class="fas fa-arrow-left"></i> KEMBALI
+        </button>
+    </div>
+
+    <!-- HALAMAN 4: TOP UP GAME -->
+    <div id="page4" class="container mx-auto max-w-md text-center hidden">
+        <h2 class="text-3xl font-bold mb-8 text-cyan-300">PILIH GAME</h2>
+        <div class="grid grid-cols-3 gap-4">
+            <a href="https://wa.me/6282164453311?text=BG%20MAU%20TOP%20UP%20FF%20NOMINAL..." class="bg-red-700 p-4 rounded-lg btn-custom">
+                <i class="fas fa-fire"></i><br>FF
+            </a>
+            <a href="https://wa.me/6282164453311?text=BG%20MAU%20TOP%20UP%20ML%20NOMINAL..." class="bg-blue-600 p-4 rounded-lg btn-custom">
