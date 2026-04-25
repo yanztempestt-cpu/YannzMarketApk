@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rverx</title>
+
+<style>
+body{
+ margin:0;
+ background:black;
+ color:#00ffcc;
+ font-family:monospace;
+ overflow:hidden;
+}
+
+canvas{
+ position:fixed;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ z-index:-1;
+}
+
+.logo{
+ width:110px;
+ height:110px;
+ border-radius:50%;
+ display:block;
+ margin:15px auto;
+ border:3px solid #00ffcc;
+ box-shadow:0 0 15px #00ffcc, 0 0 30px #00ffcc inset;
+ object-fit:cover;
+}
+
+.box{
+ background:rgba(0,0,0,0.8);
+ border:1px solid #00ffcc;
+ margin:10px;
+ padding:15px;
+ border-radius:10px;
+ text-align:center;
+}
+
+input,select{
+ width:90%;
+ padding:10px;
+ margin:5px;
+ background:black;
+ border:1px solid #00ffcc;
+ color:#00ffcc;
+}
+
+.row{display:flex;gap:10px}
+
+button{
+ flex:1;
+ padding:10px;
+ background:#00ffcc;
+ border:none;
+ color:black;
+ font-weight:bold;
+}
+
+#terminal{
+ height:150px;
+ overflow:auto;
+ text-align:left;
+ font-size:12px;
+ margin-top:10px;
+ border-top:1px solid #00ffcc;
+ padding-top:5px;
+}
+
+.bar{
+ height:6px;
+ background:#111;
+ margin-top:10px;
+}
+.fill{
+ height:100%;
+ width:0%;
+ background:#00ffcc;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<!-- LOGIN -->
+<div id="login">
+<img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+
+<div class="box">
+<input id="user" placeholder="USERNAME">
+<input id="pass" placeholder="PASSWORD">
+<input id="key" placeholder="KEY (khusus VIP/Admin)">
+
+<div class="row">
+<button onclick="window.close()">KEMBALI</button>
+<button onclick="login()">BERIKUTNYA</button>
+</div>
+</div>
+</div>
+
+<!-- MENU -->
+<div id="menu" style="display:none">
+<img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+
+<div class="box">
+<input id="number" placeholder="62XXXXXXXXX">
+
+<select id="bugType">
+<option>FORCE CLOSE</option>
+<option>DELAY HARD</option>
+<option>BLANK UI</option>
+<option>ATTACK IOS</option>
+</select>
+
+<div class="row">
+<button onclick="resetForm()">BATALKAN</button>
+<button onclick="startSim()">KONFIRMASI</button>
+</div>
+
+<div class="bar"><div class="fill" id="fill"></div></div>
+<div id="terminal"></div>
+</div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin" style="display:none">
+<img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+
+<div class="box">
+<h3>ADMIN PANEL</h3>
+
+<button onclick="generateKey()">GENERATE KEY</button>
+<div id="keyList"></div>
+
+<button onclick="logout()">LOGOUT</button>
+</div>
+</div>
+
+<script>
+
+// ===== MATRIX =====
+let c = document.getElementById("matrix")
+let ctx = c.getContext("2d")
+c.height = window.innerHeight
+c.width = window.innerWidth
+
+let letters = "01RVERX".split("")
+let drops = Array(Math.floor(c.width/10)).fill(1)
+
+function draw(){
+ ctx.fillStyle="rgba(0,0,0,0.05)"
+ ctx.fillRect(0,0,c.width,c.height)
+ ctx.fillStyle="#0f0"
+ ctx.font="10px monospace"
+
+ drops.forEach((y,i)=>{
+  let text=letters[Math.floor(Math.random()*letters.length)]
+  ctx.fillText(text,i*10,y*10)
+  if(y*10>c.height && Math.random()>0.95) drops[i]=0
+  drops[i]++
+ })
+}
+setInterval(draw,50)
+
+// ===== SYSTEM =====
+let role = "guest"
+let validKeys = []
+
+function login(){
+ let u=user.value
+ let p=pass.value
+ let k=key.value
+
+ if(u==="YanzzMEMBER" && p==="12345678"){
+  role="member"
+  openMenu()
+ }
+
+ else if(u==="YanzzMEMBERVIP" && p==="7777777"){
+  if(validKeys.includes(k)){
+   role="vip"
+   validKeys = validKeys.filter(x=>x!==k) // key sekali pakai
+   openMenu()
+  }else{
+   alert("Key salah / sudah dipakai")
+  }
+ }
+
+ else if(u==="YanzzOWNER" && p==="27051210#$+-"){
+  role="admin"
+  login.style.display="none"
+  admin.style.display="block"
+ }
+
+ else{
+  alert("Login gagal")
+ }
+}
+
+function openMenu(){
+ login.style.display="none"
+ menu.style.display="block"
+
+ if(role==="member"){
+  bugType.innerHTML = `<option>DELAY HARD</option>`
+ }
+}
+
+function logout(){
+ location.reload()
+}
+
+// ===== ADMIN KEY =====
+function generateKey(){
+ let key = "RVX-"+Math.random().toString(36).substring(2,8).toUpperCase()
+
+ if(validKeys.includes(key)){
+  return generateKey()
+ }
+
+ validKeys.push(key)
+
+ let div=document.createElement("div")
+ div.innerText=key
+ keyList.appendChild(div)
+}
+
+// ===== TERMINAL =====
+function log(t){
+ terminal.innerHTML += "> "+t+"<br>"
+ terminal.scrollTop=terminal.scrollHeight
+}
+
+function resetForm(){
+ number.value=""
+ terminal.innerHTML=""
+ fill.style.width="0%"
+}
+
+// ===== SIM =====
+function startSim(){
+ let num=number.value
+ let type=bugType.value
+
+ if(!num) return alert("Nomor kosong")
+
+ if(role==="member" && type!=="DELAY HARD"){
+  alert("Member hanya bisa DELAY HARD")
+  return
+ }
+
+ log("Rverx starting...")
+ let p=0
+
+ let i=setInterval(()=>{
+  p+=10
+  fill.style.width=p+"%"
+  log("Processing "+p+"%")
+
+  if(p>=100){
+   clearInterval(i)
+   log("TARGET : "+num)
+   log("TYPE   : "+type)
+   log("STATUS : SUCCESS (SIMULASI)")
+  }
+
+ },300)
+}
+
+</script>
+
+<!-- CASE.JS -->
+<script src="Rverx.js"></script>
+
+</body>
+  </html>
