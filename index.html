@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rverx</title>
+
+<style>
+body{
+ margin:0;
+ background:#0b0f14;
+ color:#d9fff8;
+ font-family:monospace;
+}
+
+/* LOGO */
+.logo{
+ width:85px;height:85px;
+ border-radius:50%;
+ display:block;
+ margin:15px auto;
+ border:2px solid #00e6c3;
+ box-shadow:0 0 15px #00e6c3;
+}
+
+/* VIDEO */
+video{
+ width:95%;
+ max-width:420px;
+ display:block;
+ margin:auto;
+ border-radius:12px;
+ box-shadow:0 0 10px #000;
+}
+
+/* BOX */
+.box{
+ margin:12px;
+ padding:12px;
+ border-radius:12px;
+ background:#11161d;
+ border:1px solid #1c2a2a;
+}
+
+/* INPUT */
+input,select{
+ width:100%;
+ padding:10px;
+ margin-top:6px;
+ background:#0b0f14;
+ border:1px solid #1c2a2a;
+ color:#d9fff8;
+ border-radius:8px;
+}
+
+/* BUTTON */
+button{
+ width:100%;
+ padding:10px;
+ margin-top:8px;
+ background:#00e6c3;
+ border:none;
+ color:#000;
+ font-weight:bold;
+ border-radius:8px;
+}
+
+/* TAB */
+.tabs{
+ display:flex;
+ margin-top:10px;
+}
+.tab{
+ flex:1;
+ text-align:center;
+ padding:10px;
+ cursor:pointer;
+ opacity:0.5;
+}
+.activeTab{
+ opacity:1;
+ border-bottom:2px solid #00e6c3;
+}
+
+/* PAGE */
+.page{display:none}
+.active{display:block}
+
+/* LIST */
+.list{
+ max-height:350px;
+ overflow:auto;
+ white-space:pre-line;
+ font-size:12px;
+}
+
+/* TERMINAL */
+#terminal{
+ font-size:12px;
+ margin-top:10px;
+ border-top:1px solid #1c2a2a;
+ padding-top:5px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage">
+<img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+
+<div class="box">
+<input id="user" placeholder="Username">
+<input id="pass" placeholder="Password">
+<button onclick="login()">BERIKUTNYA</button>
+</div>
+</div>
+
+<!-- MENU -->
+<div id="menuPage" style="display:none">
+
+<img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+
+<video src="https://files.catbox.moe/lnj4we.mp4" autoplay muted loop></video>
+
+<div class="box">
+RVERX SIMULATION UI<br>
+Gunakan dengan bijak. Hubungi admin untuk info.
+</div>
+
+<div class="tabs">
+<div class="tab activeTab" onclick="openTab(event,'type')">TYPE</div>
+<div class="tab" onclick="openTab(event,'list')">LIST</div>
+<div class="tab" onclick="openTab(event,'digital')">DIGITAL</div>
+</div>
+
+<!-- TYPE -->
+<div id="type" class="page active">
+<div class="box">
+<input id="number" placeholder="62XXXXXXXXX">
+
+<select id="bugType">
+<option>FORCE CLOSE</option>
+<option>DELAY HARD</option>
+<option>BLANK UI</option>
+<option>ATTACK IOS</option>
+</select>
+
+<button onclick="run()">KONFIRMASI</button>
+
+<div id="terminal"></div>
+</div>
+</div>
+
+<!-- LIST FULL -->
+<div id="list" class="page">
+<div class="box list">
+WTS KEBUTUHAN DIGITAL BY YANZZ⚓
+-----------------------------------
+TOP UP ALL GAME
+- ML, FF, DLL
+
+FILE EPEP
+- DRIP CLIENT V1 15K
+- DRIP CLIENT V4 20K
+- DRAGON MODS 25K
+- ZURA 30K
+
+FILE FF
+- AIMBOT 15K
+- HEADLOCK 75% 5K
+- HEADLOCK 98% 50K
+- BODY LOCK 5K - 30K
+- FIX LAG 5K - 10K
+- STABILIZER 10K - 15K
+- EASY DRAG 30K - 40K
+- KING DRAG 75K
+
+WEB & APK
+- PUSH KONTAK 5K
+- PUSH MEMBER 3K
+- QRIS 1K - 3K
+- BIOSKOP 2K
+- NOKOS 5K
+- SUNTIK SOSMED 2K
+
+OPEN
+- MURFILE 200K
+- MURWEB 10K
+- MURSUN 5K
+- MURKOS 5K
+
+LAINNYA
+- AM PREMIUM 3K
+- NOKOS VIP 10K
+</div>
+</div>
+
+<!-- DIGITAL -->
+<div id="digital" class="page">
+<div class="box">
+<button onclick="go('https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN')">JOIN FJB</button>
+<button onclick="go('https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f')">SALURAN</button>
+<button onclick="go('https://instagram.com/yanzzzmarket')">INSTAGRAM</button>
+<button onclick="go('https://youtube.com/@king_of_file')">YOUTUBE</button>
+</div>
+</div>
+
+<script>
+
+let role=""
+
+// AUTO LOGIN
+if(localStorage.getItem("login")){
+ role=localStorage.getItem("login")
+ loginPage.style.display="none"
+ menuPage.style.display="block"
+ applyRole()
+}
+
+// LOGIN
+function login(){
+ let u=user.value
+ let p=pass.value
+
+ if(u==="YanzzMEMBER" && p==="12345678"){
+  role="member"
+ }
+ else if(u==="YanzzMEMBERVIP" && p==="7777777"){
+  role="vip"
+ }
+ else if(u==="YanzzPREM" && p==="1111111"){
+  role="vip"
+ }
+ else if(u==="YanzzOWNER" && p==="27051210#$+-"){
+  role="admin"
+ }
+ else return alert("Login gagal")
+
+ localStorage.setItem("login",role)
+
+ loginPage.style.display="none"
+ menuPage.style.display="block"
+
+ applyRole()
+}
+
+// ROLE
+function applyRole(){
+ if(role==="member"){
+  bugType.innerHTML=`<option>DELAY HARD</option>`
+ }
+}
+
+// TAB
+function openTab(e,id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
+ document.getElementById(id).classList.add("active")
+
+ document.querySelectorAll(".tab").forEach(t=>t.classList.remove("activeTab"))
+ e.currentTarget.classList.add("activeTab")
+}
+
+// SIMULASI
+function run(){
+ let num=number.value
+ let type=bugType.value
+
+ if(!num) return alert("isi nomor")
+
+ terminal.innerHTML="> connecting...<br>"
+
+ let step=0
+ let int=setInterval(()=>{
+  step++
+
+  terminal.innerHTML+=`> processing ${step*20}%<br>`
+
+  if(step>=5){
+   clearInterval(int)
+   terminal.innerHTML+=`> target : ${num}<br>`
+   terminal.innerHTML+=`> type : ${type}<br>`
+   terminal.innerHTML+=`> status : SUCCESS (SIMULASI)<br>`
+  }
+
+ },400)
+}
+
+// LINK
+function go(url){
+ window.open(url)
+}
+
+</script>
+
+</body>
+</html>
