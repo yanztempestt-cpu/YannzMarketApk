@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rverx</title>
+
+<style>
+body{
+ margin:0;
+ background:black;
+ color:#00ffcc;
+ font-family:monospace;
+ overflow:hidden;
+}
+
+/* MATRIX */
+canvas{
+ position:fixed;
+ top:0;left:0;
+ width:100%;height:100%;
+ z-index:-1;
+}
+
+/* LOGO */
+.logo{
+ width:110px;
+ height:110px;
+ border-radius:50%;
+ display:block;
+ margin:15px auto;
+ border:2px solid #00ffcc;
+ box-shadow:0 0 20px #00ffcc,0 0 40px #00ffcc;
+}
+
+/* VIDEO */
+.video{
+ width:100%;
+ max-width:320px;
+ display:block;
+ margin:10px auto;
+ border:2px solid #00ffcc;
+}
+
+/* BOX */
+.box{
+ background:rgba(0,0,0,0.8);
+ border:1px solid #00ffcc;
+ margin:10px;
+ padding:15px;
+ border-radius:10px;
+}
+
+/* INPUT */
+input,select{
+ width:100%;
+ padding:10px;
+ margin:5px 0;
+ background:black;
+ border:1px solid #00ffcc;
+ color:#00ffcc;
+}
+
+/* BUTTON */
+button{
+ width:100%;
+ padding:10px;
+ margin-top:8px;
+ background:#00ffcc;
+ border:none;
+ color:black;
+ font-weight:bold;
+ border-radius:10px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:8px;
+}
+
+/* TAB */
+.tabs{display:flex}
+.tab{
+ flex:1;
+ padding:10px;
+ text-align:center;
+ border:1px solid #00ffcc;
+ cursor:pointer;
+}
+.activeTab{background:#00ffcc;color:black}
+
+/* TERMINAL */
+#terminal{
+ height:120px;
+ overflow:auto;
+ font-size:12px;
+ border-top:1px solid #00ffcc;
+ margin-top:10px;
+}
+
+/* LIST */
+.list{font-size:12px;white-space:pre-line}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<!-- LOGIN -->
+<div id="loginPage">
+<img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+<video src="https://files.catbox.moe/lnj4we.mp4" class="video" autoplay muted loop></video>
+
+<div class="box">
+<input id="user" placeholder="👤 USERNAME">
+<input id="pass" placeholder="🔑 PASSWORD">
+
+<button onclick="login()">🔓 BERIKUTNYA</button>
+</div>
+</div>
+
+<!-- MENU -->
+<div id="menuPage" style="display:none">
+<img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+<video src="https://files.catbox.moe/lnj4we.mp4" class="video" autoplay muted loop></video>
+
+<div class="tabs">
+<div class="tab activeTab" onclick="openTab(event,'type')">⚙️ TYPE</div>
+<div class="tab" onclick="openTab(event,'list')">📦 LIST</div>
+<div class="tab" onclick="openTab(event,'digital')">🌐 DIGITAL</div>
+</div>
+
+<div class="box tabContent" id="type">
+<input id="number" placeholder="📱 62XXXXXXXXX">
+
+<select id="bugType">
+<option>⏱️ DELAY HARD</option>
+<option>💥 FORCE CLOSE</option>
+<option>📭 BLANK UI</option>
+<option>🍏 ATTACK IOS</option>
+</select>
+
+<button onclick="run()">⚡ KONFIRMASI</button>
+
+<div id="terminal"></div>
+</div>
+
+<div class="box tabContent" id="list" style="display:none">
+<div class="list">
+⚓STOK YANZZ⚓
+
+PANEL FF
+- DRIP CLINET 10K
+- EASY DRAG 10K
+- PROCS 20K
+- VVIP PERM 200K
+
+FILE FF GACOR
+- AIMLOCK 75% 4K
+- HEADLOCK 75% 5K
+- BODY LOCK V1 5K
+- GS FILE 5K
+- LIB FILE 5K
+- FIX LAG V1 20K
+- DRAG BLOOD HS 5K
+- AIMBOT VIP 20K
+- STABILIZER V4 20K
+- BODY LOCK V3 30K
+- EASY DRAG 90% 40K
+- XIT DRAG 98% 50K
+- HEADLOCK 98% 50K
+
+KEBUTUHAN JB
+- APK PUSH KONTAK 5K
+- APK MEMBER 5K
+- E KTP 5K
+- APK QRIS 5K
+- APK BIOSKOP 2K
+- WEB SOSMED 5K
+
+OPEN RESELLER DLL
+
+AM PREM 5K
+NOKOS VVIP 10K
+</div>
+</div>
+
+<div class="box tabContent" id="digital" style="display:none">
+<button onclick="go('https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN')">💬 JOIN FJB</button>
+<button onclick="go('https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f')">📢 SALURAN</button>
+<button onclick="go('https://instagram.com/yanzzzmarket')">📸 INSTAGRAM</button>
+<button onclick="go('https://youtube.com/@king_of_file')">▶️ YOUTUBE</button>
+</div>
+
+<button onclick="logout()">🚪 LOGOUT</button>
+
+</div>
+
+<script>
+// MATRIX
+let c=document.getElementById("matrix")
+let ctx=c.getContext("2d")
+c.height=innerHeight
+c.width=innerWidth
+let letters="RVERX01".split("")
+let drops=Array(Math.floor(c.width/10)).fill(1)
+
+setInterval(()=>{
+ ctx.fillStyle="rgba(0,0,0,0.05)"
+ ctx.fillRect(0,0,c.width,c.height)
+ ctx.fillStyle="#0f0"
+ ctx.font="10px monospace"
+
+ drops.forEach((y,i)=>{
+  let text=letters[Math.floor(Math.random()*letters.length)]
+  ctx.fillText(text,i*10,y*10)
+  if(y*10>c.height&&Math.random()>0.95)drops[i]=0
+  drops[i]++
+ })
+},50)
+
+// LOGIN SYSTEM
+let role="member"
+
+function login(){
+ if(user.value=="YanzzMEMBER" && pass.value=="12345678"){
+  role="member"
+ }
+ else if(user.value=="YanzzMEMBERVIP" && pass.value=="7777777"){
+  role="vip"
+ }
+ else if(user.value=="YanzzOWNER" && pass.value=="27051210#$+-"){
+  role="admin"
+  alert("WELCOME OWNER")
+ }
+ else if(user.value=="YanzzPREM" && pass.value=="1111111"){
+  let use=localStorage.getItem("premUse")||0
+  if(use>=2) return alert("LIMIT HABIS")
+  localStorage.setItem("premUse",++use)
+  role="prem"
+ }
+ else{
+  alert("LOGIN SALAH")
+  return
+ }
+
+ localStorage.setItem("login",role)
+ loginPage.style.display="none"
+ menuPage.style.display="block"
+}
+
+// LOGOUT
+function logout(){
+ localStorage.clear()
+ location.reload()
+}
+
+// TAB
+function openTab(e,id){
+ document.querySelectorAll(".tabContent").forEach(x=>x.style.display="none")
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("activeTab"))
+ document.getElementById(id).style.display="block"
+ e.target.classList.add("activeTab")
+}
+
+// RUN SIM
+function run(){
+ let num=number.value
+ let type=bugType.value
+
+ if(role=="member" && type!="⏱️ DELAY HARD"){
+  return alert("Member hanya bisa DELAY")
+ }
+
+ terminal.innerHTML="> 🚀 connecting...<br>"
+
+ let p=0
+ let i=setInterval(()=>{
+  p+=20
+  terminal.innerHTML+=`> processing ${p}%<br>`
+  if(p>=100){
+   clearInterval(i)
+   terminal.innerHTML+=`> 🎯 ${num}<br>`
+   terminal.innerHTML+=`> ⚙️ ${type}<br>`
+   terminal.innerHTML+=`> ✅ SUCCESS (SIMULASI)<br>`
+  }
+ },300)
+
+ // 📍 TEMPAT TARUH CASE.JS
+ if(typeof sendBug==="function"){
+  sendBug(num,type)
+ }
+}
+
+// LINK
+function go(url){window.open(url)}
+
+</script>
+
+<script src="Rverx.js"></script>
+
+</body>
+  </html>
