@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Rverx | Brutal Bug System</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a0f;
+    font-family: 'Inter', 'Poppins', system-ui, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+}
+
+/* ANIMATED NEON BG */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+.bg-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 20%, #0a0a2a, #020210, #000000);
+    z-index: -3;
+}
+.bg-scan {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, rgba(0,255,255,0.03) 0px, rgba(0,255,255,0.03) 2px, transparent 2px, transparent 8px);
+    z-index: -2;
+    pointer-events: none;
+    animation: pulseGlow 4s infinite;
+}
+.floating-particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+.particle {
+    position: absolute;
+    background: rgba(0, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: float 10s infinite ease-in-out;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+    50% { transform: translateY(-50px) translateX(30px); opacity: 0.7; }
+}
+
+/* PAGE TRANSITION */
+.page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2), opacity 0.3s;
+    background: rgba(6, 6, 16, 0.8);
+    backdrop-filter: blur(12px);
+    z-index: 10;
+}
+.page:not(.active) {
+    transform: translateX(100%) scale(0.96);
+    opacity: 0;
+    pointer-events: none;
+}
+.page.active {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+.page::-webkit-scrollbar {
+    width: 0;
+}
+
+/* GLASS CARD ULTRA */
+.glass-card {
+    background: rgba(12, 12, 28, 0.7);
+    backdrop-filter: blur(24px);
+    border-radius: 36px;
+    margin: 14px 18px;
+    padding: 22px 20px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.logo {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    display: block;
+    margin: 22px auto 15px;
+    box-shadow: 0 0 40px cyan, 0 0 15px rgba(0,255,255,0.6);
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+/* INPUT BRUTAL */
+input, select {
+    width: 100%;
+    padding: 16px 20px;
+    margin: 12px 0;
+    border: none;
+    border-radius: 44px;
+    background: rgba(8, 8, 20, 0.95);
+    color: white;
+    font-size: 15px;
+    outline: none;
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    transition: 0.2s;
+}
+input:focus, select:focus {
+    border-color: cyan;
+    box-shadow: 0 0 18px cyan;
+    background: #0a0a18;
+}
+
+/* BUTTON GLOW */
+.btn {
+    width: 100%;
+    padding: 16px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.1s linear;
+    letter-spacing: 1px;
+}
+.btn:active {
+    transform: scale(0.96);
+}
+.btn-chat {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    font-size: 18px;
+    box-shadow: 0 5px 25px rgba(37,211,102,0.6);
+}
+.btn-brutal {
+    background: linear-gradient(135deg, #ff0055, #aa00ff);
+    box-shadow: 0 0 15px rgba(255,0,85,0.5);
+}
+.row {
+    display: flex;
+    gap: 12px;
+}
+.row .btn {
+    flex: 1;
+}
+.btn-secondary {
+    background: #2c2c3e;
+}
+
+/* LOGOUT TOP */
+.logout-top {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(12px);
+    padding: 6px 18px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,80,80,0.7);
+    color: #ff8a8a;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 200;
+    cursor: pointer;
+}
+
+/* NAV BOTTOM */
+.nav-premium {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    display: flex;
+    justify-content: space-around;
+    background: rgba(10, 10, 22, 0.95);
+    backdrop-filter: blur(28px);
+    padding: 10px 14px;
+    border-radius: 60px;
+    border: 1px solid rgba(0, 255, 255, 0.6);
+    z-index: 100;
+    gap: 8px;
+}
+.nav-premium button {
+    width: auto;
+    margin: 0;
+    padding: 10px 18px;
+    font-size: 13px;
+    background: #1e1e32;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+/* STOK LIST */
+.stok-list {
+    max-height: 48vh;
+    overflow-y: auto;
+    padding: 6px;
+}
+.stok-item {
+    background: rgba(12, 12, 22, 0.85);
+    backdrop-filter: blur(8px);
+    margin: 12px 0;
+    padding: 16px 18px;
+    border-radius: 28px;
+    border-left: 5px solid cyan;
+    font-size: 13px;
+    font-family: monospace;
+    white-space: pre-wrap;
+    color: #ddd;
+}
+
+/* FINGERPRINT */
+.finger-area {
+    text-align: center;
+    margin: 15px 0;
+}
+.finger-icon {
+    font-size: 58px;
+    cursor: pointer;
+    transition: 0.1s;
+    background: linear-gradient(135deg, cyan, #00aaff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 15px cyan;
+}
+.finger-icon:active {
+    transform: scale(0.92);
+}
+
+/* NOTIF */
+#notif {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000000dd;
+    backdrop-filter: blur(28px);
+    padding: 14px 28px;
+    border-radius: 60px;
+    border: 1px solid cyan;
+    display: none;
+    z-index: 200;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: #0ff;
+    white-space: nowrap;
+}
+
+/* INTRO */
+#intro {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: #000;
+    transition: opacity 0.5s;
+}
+#intro video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#skip {
+    position: absolute;
+    bottom: 40px;
+    right: 20px;
+    padding: 12px 30px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 50px;
+    color: white;
+    border: 1px solid cyan;
+}
+</style>
+</head>
+<body>
+
+<div id="intro">
+<video id="introVid" src="https://files.catbox.moe/iw29ox.mp4" autoplay muted playsinline></video>
+<button id="skip">⚡ SKIP INTRO ⚡</button>
+</div>
+
+<!-- BACKGROUND BRUTAL -->
+<div class="bg-gradient"></div>
+<div class="bg-scan"></div>
+<div class="floating-particles" id="particles"></div>
+
+<div id="logoutTop" class="logout-top" style="display: none;" onclick="logout()">🚪 LOGOUT</div>
+
+<!-- HALAMAN LOGIN -->
+<div id="page-login" class="page active">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <input id="loginUsername" placeholder="⚡ USERNAME / KEY ⚡">
+        <div class="finger-area">
+            <div class="finger-icon" onclick="authenticateWithFingerprint()">🖐️</div>
+        </div>
+        <button class="btn" onclick="authenticateWithFingerprint()">🔓 LOGIN DENGAN SIDIK JARI 🔓</button>
+        <p style="font-size: 11px; text-align: center; margin-top: 16px; opacity: 0.6;">Admin: register sidik jari pertama kali</p>
+    </div>
+</div>
+
+<!-- HALAMAN REGISTER FINGERPRINT -->
+<div id="page-register" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <p style="text-align: center; font-weight: bold;">🔐 REGISTRASI SIDIK JARI 🔐</p>
+        <input id="regUsername" placeholder="USERNAME (YanzzOWNER)">
+        <input id="regPassword" placeholder="PASSWORD" type="password">
+        <div class="finger-area">
+            <div class="finger-icon" onclick="registerFingerprint()">🖐️</div>
+        </div>
+        <button class="btn" onclick="registerFingerprint()">📝 DAFTARKAN SIDIK JARI</button>
+        <button class="btn btn-secondary" onclick="switchPage('login')">⬅ KEMBALI</button>
+    </div>
+</div>
+
+<!-- HALAMAN UTAMA BUG BRUTAL -->
+<div id="page-main" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <video autoplay muted loop playsinline style="width:100%; border-radius:28px; margin-bottom:16px;">
+            <source src="https://files.catbox.moe/lnj4we.mp4">
+        </video>
+        <input id="number" placeholder="📱 TARGET NUMBER (62XXXX)">
+        <select id="bugType">
+            <option value="DELAY HARD">💀 DELAY HARD</option>
+            <option value="FORCE CLOSE">🗡️ FORCE CLOSE</option>
+            <option value="BLANK UI">👻 BLANK UI</option>
+            <option value="ATTACK IOS">🍏 ATTACK IOS</option>
+            <option value="MASS CRASH">💥 MASS CRASH (BRUTAL)</option>
+            <option value="OVERLOAD SYSTEM">⚡ OVERLOAD SYSTEM</option>
+        </select>
+        <div class="row">
+            <button class="btn btn-secondary" onclick="resetForm()">❌ RESET</button>
+            <button class="btn btn-brutal" onclick="run()">💀 EKSEKUSI BRUTAL 💀</button>
+        </div>
+    </div>
+    <div class="glass-card">
+        <input id="whatsappTarget" placeholder="📞 NOMOR TARGET CHAT (62xxx)">
+        <button class="btn btn-chat" onclick="chatNow()">💬 CHAT SEKARANG 💬</button>
+    </div>
+</div>
+
+<!-- HALAMAN LIST STOK -->
+<div id="page-list" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <textarea id="editList" rows="6" style="display:none; background:#0a0a18; color:#0ff; border-radius:24px; padding:12px;"></textarea>
+        <div id="listContainer" class="stok-list"></div>
+        <button id="saveBtn" onclick="saveList()" style="display:none" class="btn">💾 SAVE STOK</button>
+    </div>
+</div>
+
+<!-- HALAMAN DIGITAL -->
+<div id="page-digital" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <button class="btn" onclick="openLink('https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN')">📱 JOIN FJB</button>
+        <button class="btn" onclick="openLink('https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f')">📢 OFFICIAL CH</button>
+        <button class="btn" onclick="openLink('https://www.instagram.com/yanzzzmarket')">📸 INSTAGRAM</button>
+        <button class="btn" onclick="openLink('https://youtube.com/@king_of_file')">🎥 YOUTUBE</button>
+        <button class="btn btn-chat" onclick="orderNow()">💬 ORDER BUG</button>
+    </div>
+</div>
+
+<!-- HALAMAN KEYGEN (ADMIN ONLY) -->
+<div id="page-keygen" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <input id="newKey" placeholder="🔑 MASUKAN KEY BARU">
+        <select id="durasi">
+            <option value="1">1 HARI</option>
+            <option value="3">3 HARI</option>
+            <option value="7">7 HARI</option>
+            <option value="30">1 BULAN</option>
+            <option value="9999">PERMANEN</option>
+        </select>
+        <button class="btn" onclick="generateKey()">🎲 GENERATE KEY (SEKALI PAKAI)</button>
+        <p style="font-size: 11px; text-align: center; margin-top: 12px; opacity:0.6;">Key otomatis expired & hanya bisa dipakai 1x</p>
+    </div>
+</div>
+
+<!-- NAV BOTTOM -->
+<div class="nav-premium" id="mainNav" style="display: none;">
+    <button onclick="switchPage('main')">💀 BUG</button>
+    <button onclick="switchPage('list')">📁 STOK</button>
+    <button onclick="switchPage('digital')">🌐 SOSMED</button>
+    <button id="keyNavBtn" onclick="switchPage('keygen')" style="display:none">🔐 KEYGEN</button>
+</div>
+
+<div id="notif"></div>
+
+<script>
+// ==================== RVERX BRUTAL BUG SYSTEM ====================
+// INTRO SKIP
+const introDiv = document.getElementById("intro");
+const skipBtn = document.getElementById("skip");
+const introVid = document.getElementById("introVid");
+function forceSkipIntro() {
+    if(!introDiv) return;
+    if(introVid) { introVid.pause(); introVid.src = ""; introVid.load(); }
+    introDiv.style.opacity = "0";
+    setTimeout(() => {
+        if(introDiv && introDiv.parentNode) introDiv.remove();
+        document.getElementById("page-login").classList.add("active");
+    }, 180);
+}
+skipBtn.addEventListener("click", forceSkipIntro);
+if(introVid) introVid.addEventListener("ended", forceSkipIntro);
+setTimeout(forceSkipIntro, 2800);
+
+// STORAGE
+let fingerprints = JSON.parse(localStorage.getItem("fingerprints") || "{}");
+let keys = JSON.parse(localStorage.getItem("keys") || "{}");
+let role = "guest";
+let currentUser = null;
+
+const defaultStok = `*_⚓STOK YANZZ BRUTAL⚓_*
+*_⚓PANEL FF⚓_*
+- DRIP CLINET 10K NO VIP
+- EASY DRAG XAPK 10K
+- ITACHI POV 5K
+- PROCS 20K
+- DRIP CLINET MOD MENU VVIP PERM 200K
+____________________________________________
+       FILE FF GACOR
+- AIMLOCK 75% 4K
+- HEADLOCK 75% 5K
+- BODY LOCK V1 5K
+- GS FILE 5K
+- LIB FILE 5K
+- FIX LAG V1 20K
+- DRAG BLOOD HS 5K
+- AIMLOCK BEST SELLER 5K
+- AIMLOCK 98% 5K
+- STABILIZER V1 10K
+- FSA VIP 25K
+- REGE BRUTALITY 10K
+- FIX LAG V2 10K
+- AIMBOT VIP 20K
+- STABILIZER V4 20K
+- BODY LOCK V2 20K
+- HEADLOCK 85% 20K
+- BODY LOCK V3 30K
+- EASY DRAG 85% 30K
+- EASY DRAG 90% 40K
+- XIT DRAG HS 98% 50K
+- HEADLOCK 98% 50K
+- XIT DRAG HS 99% 75K
+- D4RK SH0T VIP 80K
+____________________________________________
+      KEBUTUHAN JB
+-APK PUSH KONTAK 5K
+-APK PUSH MEMBER 5K
+-E KTP 5K
+-APK KENON WA 3K
+-APK Q RIS MERAH 3K
+-APK Q RIS ALL PAY 5K
+-APK Q RIS NO PAJAK 3K
+-APK BIOSKOP 2K
+-WEB SUNTIK ALL SOSMED 5K
+-APK SW IN GB ORANG 5K
+-APK PS 2 2K
+____________________________________________
+OPEN MURFILE 200K
+OPEN MURSUN 5K
+OPEN MURKOS 7K
+AM PREM 1TAHUN 5K
+NOKOS VVIP 10K
+JASBUG 5K - WORK 100%
+MINAT? PM GW`;
+
+// DOM
+const editListArea = document.getElementById("editList");
+const saveListBtn = document.getElementById("saveBtn");
+const listContainer = document.getElementById("listContainer");
+const logoutTop = document.getElementById("logoutTop");
+const navDiv = document.getElementById("mainNav");
+const keyNavBtn = document.getElementById("keyNavBtn");
+
+function switchPage(pageName) {
+    const pages = ['login', 'register', 'main', 'list', 'digital', 'keygen'];
+    pages.forEach(p => {
+        const el = document.getElementById(`page-${p}`);
+        if(el) el.classList.remove('active');
+    });
+    const activePage = document.getElementById(`page-${pageName}`);
+    if(activePage) activePage.classList.add('active');
+}
+
+function generateFingerprint() {
+    return 'fp_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+}
+
+// REGISTER FINGERPRINT (ADMIN)
+function registerFingerprint() {
+    let username = document.getElementById("regUsername").value.trim();
+    let password = document.getElementById("regPassword").value;
+    if(username !== "YanzzOWNER" || password !== "27051210#$+-") {
+        showNotif("❌ Hanya YanzzOWNER yang bisa register!", 2000);
+        return;
+    }
+    let fp = generateFingerprint();
+    fingerprints[username] = fp;
+    localStorage.setItem("fingerprints", JSON.stringify(fingerprints));
+    showNotif("✅ Sidik jari berhasil didaftarkan!", 2000);
+    setTimeout(() => switchPage('login'), 1500);
+}
+
+// LOGIN DENGAN SIDIK JARI + KEY (SEKALI PAKAI + EXPIRED)
+function authenticateWithFingerprint() {
+    let input = document.getElementById("loginUsername").value.trim();
+    if(!input) {
+        showNotif("⚠️ Masukkan username atau key!", 1500);
+        return;
+    }
+    
+    // Cek apakah input adalah key (bukan username admin)
+    if(keys[input]) {
+        let keyData = keys[input];
+        if(keyData.used) {
+            showNotif("❌ KEY SUDAH PERNAH DIGUNAKAN! Tidak bisa login lagi.", 2500);
+            return;
+        }
+        if(Date.now() > keyData.exp) {
+            showNotif("❌ KEY EXPIRED! Silakan beli key baru.", 2000);
+            return;
+        }
+        // MARK AS USED (sekali pakai)
+        keyData.used = true;
+        localStorage.setItem("keys", JSON.stringify(keys));
+        role = "prem";
+        currentUser = input;
+        showNotif("✅ LOGIN BERHASIL! (KEY PREMIUM)", 1800);
+        afterLoginSuccess();
+        return;
+    }
+    
+    // Jika bukan key, cek fingerprint untuk admin
+    let savedFp = fingerprints[input];
+    if(!savedFp) {
+        if(input === "YanzzOWNER") {
+            showNotif("🔐 Silakan daftarkan sidik jari dulu!", 1800);
+            switchPage('register');
+            return;
+        } else {
+            showNotif("❌ Username tidak terdaftar atau key salah!", 2000);
+            return;
+        }
+    }
+    
+    let confirmFp = prompt("🔒 VERIFIKASI SIDIK JARI\nTekan OK untuk konfirmasi");
+    if(confirmFp !== null) {
+        role = (input === "YanzzOWNER") ? "admin" : "prem";
+        currentUser = input;
+        showNotif(`✅ LOGIN BERHASIL! Selamat datang ${role.toUpperCase()}`, 1800);
+        afterLoginSuccess();
+    } else {
+        showNotif("❌ Verifikasi sidik jari gagal!", 1500);
+    }
+}
+
+function afterLoginSuccess() {
+    if(role === "admin") {
+        keyNavBtn.style.display = "block";
+        if(editListArea) editListArea.style.display = "block";
+        if(saveListBtn) saveListBtn.style.display = "block";
+    }
+    navDiv.style.display = "flex";
+    logoutTop.style.display = "block";
+    switchPage('main');
+    loadListUI();
+    applyRoleBugs();
+}
+
+function applyRoleBugs() {
+    const bugSelect = document.getElementById("bugType");
+    if(!bugSelect) return;
+    if(role !== "admin") {
+        for(let opt of bugSelect.options) {
+            opt.disabled = (opt.value !== "DELAY HARD" && opt.value !== "FORCE CLOSE");
+        }
+        if(bugSelect.value !== "DELAY HARD") bugSelect.value = "DELAY HARD";
+    } else {
+        for(let opt of bugSelect.options) opt.disabled = false;
+    }
+}
+
+function loadListUI() {
+    let stored = localStorage.getItem("rverx_stok");
+    let data = (stored && stored.trim()) ? stored : defaultStok;
+    if(editListArea) editListArea.value = data;
+    renderList(data);
+}
+function renderList(text) {
+    if(!listContainer) return;
+    let lines = text.split("\n");
+    listContainer.innerHTML = "";
+    for(let line of lines) {
+        let div = document.createElement("div");
+        div.className = "stok-item";
+        div.innerText = line;
+        listContainer.appendChild(div);
+    }
+}
+function saveList() {
+    if(!editListArea) return;
+    let newData = editListArea.value;
+    localStorage.setItem("rverx_stok", newData);
+    renderList(newData);
+    showNotif("📁 STOK DISIMPAN", 1000);
+}
+
+function resetForm() {
+    document.getElementById("number").value = "";
+    showNotif("⭕ FORM RESET", 700);
+}
+
+let currentInterval = null;
+function run() {
+    let num = document.getElementById("number").value.trim();
+    let type = document.getElementById("bugType").value;
+    if(!num || num.length < 8) {
+        showNotif("⚠️ MASUKAN NOMOR VALID (62xxx)", 1500);
+        return;
+    }
+    if(role !== "admin" && type !== "DELAY HARD" && type !== "FORCE CLOSE") {
+        type = "DELAY HARD";
+    }
+    const notifDiv = document.getElementById("notif");
+    notifDiv.style.display = "block";
+    if(currentInterval) clearInterval(currentInterval);
+    let percent = 0;
+    let brutalText = (type === "MASS CRASH" || type === "OVERLOAD SYSTEM") ? "💀 BRUTAL MODE ACTIVE 💀" : "";
+    notifDiv.innerHTML = `🎯 TARGET: ${num}<br>💣 TYPE: ${type}<br>⚙️ PROGRESS: 0%<br>${brutalText}`;
+    currentInterval = setInterval(() => {
+        let step = Math.floor(Math.random() * 22) + 8;
+        percent += step;
+        if(percent >= 100) {
+            percent = 100;
+            clearInterval(currentInterval);
+            currentInterval = null;
+            let extra = "";
+            if(type === "MASS CRASH") extra = "🔥 SERVER OVERLOAD! MULTI THREAD CRASH 🔥";
+            else if(type === "OVERLOAD SYSTEM") extra = "⚡ SYSTEM OVERLOADED! ALL SERVICES DOWN ⚡";
+            else extra = "💀 RVERX BUG ACTIVATED 💀";
+            notifDiv.innerHTML = `✅ TARGET: ${num}<br>🔥 TYPE: ${type}<br>🔻 STATUS: SUCCESS!<br>${extra}`;
+            setTimeout(() => { if(notifDiv) notifDiv.style.display = "none"; }, 3500);
+        } else {
+            notifDiv.innerHTML = `🎯 TARGET: ${num}<br>💣 TYPE: ${type}<br>⚙️ PROGRESS: ${percent}%<br>${brutalText}`;
+        }
+    }, 150);
+}
+
+function chatNow() {
+    let targetNum = document.getElementById("whatsappTarget").value.trim();
+    if(!targetNum) { showNotif("⚠️ Masukkan nomor target!", 1500); return; }
+    let cleanNum = targetNum.replace(/[^0-9]/g, '');
+    if(!cleanNum.startsWith('62')) cleanNum = '62' + cleanNum;
+    window.open(`https://wa.me/${cleanNum}?text=Halo%20dari%20Rverx%20Brutal%20Bug%20System`, "_blank");
+    showNotif("💬 Membuka chat target...", 1200);
+}
+function orderNow() { window.open("https://wa.me/6282164463311?text=Saya%20mau%20order%20bug%20RVERX", "_blank"); }
+function openLink(url) { window.open(url, "_blank"); }
+
+// GENERATE KEY (SEKALI PAKAI + EXPIRED)
+function generateKey() {
+    let newKeyVal = document.getElementById("newKey").value.trim();
+    let durasiVal = parseInt(document.getElementById("durasi").value);
+    if(!newKeyVal) { alert("Masukkan key string!"); return; }
+    if(keys[newKeyVal]) { alert("Key sudah ada!"); return; }
+    let expTime = Date.now() + (durasiVal * 86400000);
+    keys[newKeyVal] = { 
+        exp: expTime,
+        used: false,
+        created: Date.now()
+    };
+    localStorage.setItem("keys", JSON.stringify(keys));
+    let durasiTeks = durasiVal === 9999 ? "PERMANEN" : durasiVal + " Hari";
+    alert(`🔑 KEY "${newKeyVal}" BERHASIL!\nDurasi: ${durasiTeks}\nHanya bisa dipakai 1x!`);
+    document.getElementById("newKey").value = "";
+    showNotif("Key baru siap (sekali pakai)!", 1500);
+}
+
+function logout() { 
+    localStorage.clear(); 
+    location.reload(); 
+}
+function showNotif(msg, duration) {
+    let n = document.getElementById("notif");
+    if(!n) return;
+    n.innerHTML = msg;
+    n.style.display = "block";
+    setTimeout(() => { if(n) n.style.display = "none"; }, duration);
+}
+
+// FLOATING PARTICLES
+function createParticles() {
+    const container = document.getElementById("particles");
+    for(let i=0;i<40;i++) {
+        let p = document.createElement("div");
+        p.className = "particle";
+        let size = Math.random() * 6 + 2;
+        p.style.width = size + "px";
+        p.style.height = size + "px";
+        p.style.left = Math.random() * 100 + "%";
+        p.style.top = Math.random() * 100 + "%";
+        p.style.animationDuration = Math.random() * 12 + 5 + "s";
+        p.style.animationDelay = Math.random() * 5 + "s";
+        container.appendChild(p);
+    }
+}
+createParticles();
+
+if(!localStorage.getItem("rverx_stok")) localStorage.setItem("rverx_stok", defaultStok);
+setTimeout(() => { if(document.getElementById("intro")) forceSkipIntro(); }, 3800);
+</script>
+</body>
+</html>
