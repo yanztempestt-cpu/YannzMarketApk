@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Rverx | Genocide Bug System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #05050A;
+            font-family: 'Inter', 'Poppins', system-ui, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+        }
+
+        /* NEXT-GEN BACKGROUND */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 40% 50%, #0B0B1A, #010105, #000000);
+            z-index: -3;
+        }
+        .bg-glow-pulse {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, rgba(0, 255, 255, 0.03) 0px, rgba(0, 255, 255, 0.03) 2px, transparent 2px, transparent 12px);
+            z-index: -2;
+            animation: pulseScan 5s infinite;
+        }
+        @keyframes pulseScan {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.6; }
+            100% { opacity: 0.2; }
+        }
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        /* PAGE TRANSITION */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.3), opacity 0.3s;
+            background: rgba(4, 4, 12, 0.82);
+            backdrop-filter: blur(16px);
+            z-index: 10;
+            padding-bottom: 90px;
+        }
+        .page:not(.active) {
+            transform: translateX(100%) scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .page.active {
+            transform: translateX(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* GLASS CARD ULTRA */
+        .glass-card {
+            background: rgba(8, 8, 22, 0.75);
+            backdrop-filter: blur(24px);
+            border-radius: 40px;
+            margin: 14px 16px;
+            padding: 22px 18px;
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+        .logo {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            display: block;
+            margin: 24px auto 12px;
+            box-shadow: 0 0 45px cyan, 0 0 15px rgba(0,255,255,0.6);
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: glitchLogo 3s infinite;
+        }
+        @keyframes glitchLogo {
+            0%, 100% { filter: drop-shadow(0 0 5px cyan); }
+            95% { filter: drop-shadow(0 0 15px magenta); }
+        }
+
+        input, select {
+            width: 100%;
+            padding: 16px 22px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 50px;
+            background: rgba(10, 10, 22, 0.96);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            transition: 0.2s;
+        }
+        input:focus, select:focus {
+            border-color: cyan;
+            box-shadow: 0 0 20px cyan;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 60px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.08s linear;
+            letter-spacing: 1px;
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-brutal {
+            background: linear-gradient(135deg, #ff0055, #aa00ff, #ff0055);
+            background-size: 200%;
+            animation: brutalGradient 1.5s infinite alternate;
+            box-shadow: 0 0 15px #ff0055;
+        }
+        @keyframes brutalGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .btn-chat {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            font-size: 18px;
+            font-weight: 900;
+        }
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+        .row .btn {
+            flex: 1;
+        }
+        .btn-secondary {
+            background: #2c2c3e;
+        }
+
+        /* SIDEBAR PREMIUM */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 18px;
+            width: 46px;
+            height: 46px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(14px);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            z-index: 250;
+            cursor: pointer;
+            border: 1px solid cyan;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -80%;
+            width: 75%;
+            max-width: 290px;
+            height: 100%;
+            background: rgba(6, 6, 18, 0.98);
+            backdrop-filter: blur(40px);
+            z-index: 300;
+            transition: left 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 70px 18px 30px;
+            border-right: 2px solid cyan;
+            box-shadow: 8px 0 40px rgba(0,0,0,0.7);
+        }
+        .sidebar.open {
+            left: 0;
+        }
+        .sidebar-item {
+            padding: 16px 18px;
+            margin: 12px 0;
+            background: rgba(20, 20, 45, 0.7);
+            border-radius: 34px;
+            font-weight: 700;
+            text-align: center;
+            border-left: 5px solid cyan;
+            cursor: pointer;
+        }
+        .sidebar-item:active {
+            transform: scale(0.96);
+            background: rgba(0,255,255,0.2);
+        }
+        .sidebar-close {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        .logout-top {
+            position: fixed;
+            top: 20px;
+            right: 18px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(12px);
+            padding: 6px 16px;
+            border-radius: 40px;
+            border: 1px solid #ff5e5e;
+            color: #ff8a8a;
+            font-size: 12px;
+            font-weight: 700;
+            z-index: 200;
+            cursor: pointer;
+        }
+        .nav-premium {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 88%;
+            display: flex;
+            justify-content: space-around;
+            background: rgba(10, 10, 22, 0.96);
+            backdrop-filter: blur(32px);
+            padding: 8px 8px;
+            border-radius: 60px;
+            border: 1px solid cyan;
+            z-index: 100;
+            gap: 4px;
+        }
+        .nav-premium button {
+            width: auto;
+            margin: 0;
+            padding: 7px 12px;
+            font-size: 11px;
+            background: #1e1e32;
+            border-radius: 40px;
+            font-weight: 700;
+        }
+        .stok-list {
+            max-height: 48vh;
+            overflow-y: auto;
+        }
+        .stok-item {
+            background: rgba(12, 12, 28, 0.9);
+            margin: 12px 0;
+            padding: 14px 16px;
+            border-radius: 28px;
+            border-left: 5px solid cyan;
+            font-size: 12px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .finger-icon {
+            font-size: 58px;
+            text-align: center;
+            cursor: pointer;
+            background: linear-gradient(135deg, cyan, magenta);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        #notif {
+            position: fixed;
+            bottom: 95px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000000ee;
+            backdrop-filter: blur(28px);
+            padding: 12px 24px;
+            border-radius: 60px;
+            border: 1px solid cyan;
+            display: none;
+            z-index: 260;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            color: #0ff;
+            white-space: nowrap;
+        }
+        #intro {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: #000;
+            transition: opacity 0.4s;
+        }
+        #intro video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #skip {
+            position: absolute;
+            bottom: 40px;
+            right: 20px;
+            padding: 10px 26px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50px;
+            color: white;
+            border: 1px solid cyan;
+        }
+        .brutal-badge {
+            text-align: center;
+            font-size: 11px;
+            color: #ff66cc;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div id="intro">
+    <video id="introVid" src="https://files.catbox.moe/iw29ox.mp4" autoplay muted playsinline></video>
+    <button id="skip">⚡ SKIP INTRO ⚡</button>
+</div>
+
+<div class="bg-gradient"></div>
+<div class="bg-glow-pulse"></div>
+<div class="matrix-rain" id="matrixRain"></div>
+
+<div id="logoutTop" class="logout-top" style="display: none;" onclick="logout()">🚪 LOGOUT</div>
+<div class="menu-toggle" id="menuToggle" style="display: none;">☰</div>
+
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-close" id="closeSidebar">✕</div>
+    <div class="sidebar-item" onclick="reportBug()">📢 LAPORKAN BUG</div>
+    <div class="sidebar-item" onclick="aboutApp()">ℹ️ TENTANG APK</div>
+    <div class="sidebar-item" onclick="contactDev()">📞 NOMOR DEV</div>
+    <div class="sidebar-item" onclick="buyKey()">💎 BUY KEY DI DEV</div>
+</div>
+
+<!-- HALAMAN LOGIN -->
+<div id="page-login" class="page active">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <input id="loginUsername" placeholder="⚡ USERNAME / KEY ⚡">
+        <div id="fingerprintArea" style="text-align:center; display:none;">
+            <div class="finger-icon" onclick="authenticateWithFingerprint()">🖐️</div>
+        </div>
+        <button class="btn" id="loginBtn" onclick="processLogin()">🔓 LOGIN 🔓</button>
+        <div class="brutal-badge">⚡ GENOCIDE MODE READY ⚡</div>
+    </div>
+</div>
+
+<!-- REGISTER FINGERPRINT -->
+<div id="page-register" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <p style="text-align:center; font-weight:bold;">🔐 REGISTER SIDIK JARI</p>
+        <input id="regUsername" placeholder="USERNAME (YanzzOWNER)">
+        <input id="regPassword" placeholder="PASSWORD" type="password">
+        <div class="finger-icon" onclick="registerFingerprint()" style="text-align:center;">🖐️</div>
+        <button class="btn" onclick="registerFingerprint()">✅ DAFTARKAN</button>
+        <button class="btn btn-secondary" onclick="switchPage('login')">⬅ KEMBALI</button>
+    </div>
+</div>
+
+<!-- MAIN BRUTAL BUG -->
+<div id="page-main" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <video autoplay muted loop playsinline style="width:100%; border-radius:28px; margin-bottom:16px;"><source src="https://files.catbox.moe/lnj4we.mp4"></video>
+        <input id="number" placeholder="📱 TARGET NUMBER (62XXXX)">
+        <select id="bugType">
+            <option value="DELAY HARD">💀 DELAY HARD</option>
+            <option value="FORCE CLOSE">🗡️ FORCE CLOSE</option>
+            <option value="BLANK UI">👻 BLANK UI</option>
+            <option value="ATTACK IOS">🍏 ATTACK IOS</option>
+            <option value="MASS CRASH">💥 MASS CRASH (BRUTAL)</option>
+            <option value="GENOCIDE DDOS">☠️ GENOCIDE DDOS ☠️</option>
+        </select>
+        <div class="row">
+            <button class="btn btn-secondary" onclick="resetForm()">❌ RESET</button>
+            <button class="btn btn-brutal" onclick="run()">💀 EKSEKUSI BRUTAL 💀</button>
+        </div>
+    </div>
+    <div class="glass-card">
+        <input id="whatsappTarget" placeholder="📞 NOMOR TARGET CHAT">
+        <button class="btn btn-chat" onclick="chatNow()">💬 CHAT SEKARANG 💬</button>
+    </div>
+</div>
+
+<div id="page-list" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <textarea id="editList" rows="6" style="display:none; background:#0a0a18; border-radius:28px; padding:12px;"></textarea>
+        <div id="listContainer" class="stok-list"></div>
+        <button id="saveBtn" onclick="saveList()" style="display:none" class="btn">💾 SAVE STOK</button>
+    </div>
+</div>
+
+<div id="page-digital" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <button class="btn" onclick="openLink('https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN')">📱 JOIN FJB</button>
+        <button class="btn" onclick="openLink('https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f')">📢 OFFICIAL CH</button>
+        <button class="btn" onclick="openLink('https://www.instagram.com/yanzzzmarket')">📸 INSTAGRAM</button>
+        <button class="btn" onclick="openLink('https://youtube.com/@king_of_file')">🎥 YOUTUBE</button>
+        <button class="btn btn-chat" onclick="orderNow()">💬 ORDER BUG</button>
+    </div>
+</div>
+
+<div id="page-keygen" class="page">
+    <img src="https://files.catbox.moe/bi2bn4.png" class="logo">
+    <div class="glass-card">
+        <input id="newKey" placeholder="🔑 MASUKAN KEY BARU">
+        <select id="durasi">
+            <option value="1">1 HARI</option><option value="3">3 HARI</option><option value="7">7 HARI</option>
+            <option value="30">1 BULAN</option><option value="9999">PERMANEN</option>
+        </select>
+        <button class="btn" onclick="generateKey()">🎲 GENERATE KEY (1x PAKAI)</button>
+        <p class="brutal-badge">Key instant & expired system</p>
+    </div>
+</div>
+
+<div class="nav-premium" id="mainNav" style="display: none;">
+    <button onclick="switchPage('main')">💀 BUG</button>
+    <button onclick="switchPage('list')">📁 STOK</button>
+    <button onclick="switchPage('digital')">🌐 SOSMED</button>
+    <button id="keyNavBtn" onclick="switchPage('keygen')" style="display:none">🔐 KEYGEN</button>
+</div>
+<div id="notif"></div>
+
+<script>
+    // INTRO SKIP
+    const introDiv = document.getElementById("intro");
+    const skipBtn = document.getElementById("skip");
+    const introVid = document.getElementById("introVid");
+    function forceSkipIntro() {
+        if(!introDiv) return;
+        if(introVid) { introVid.pause(); introVid.src = ""; introVid.load(); }
+        introDiv.style.opacity = "0";
+        setTimeout(() => {
+            if(introDiv && introDiv.parentNode) introDiv.remove();
+            document.getElementById("page-login").classList.add("active");
+        }, 180);
+    }
+    skipBtn.addEventListener("click", forceSkipIntro);
+    if(introVid) introVid.addEventListener("ended", forceSkipIntro);
+    setTimeout(forceSkipIntro, 2800);
+
+    // STORAGE
+    let fingerprints = JSON.parse(localStorage.getItem("fingerprints") || "{}");
+    let keys = JSON.parse(localStorage.getItem("keys") || "{}");
+    let role = "guest";
+    let currentUser = null;
+
+    const DEV_NUMBER = "6282164463311";
+    const OWNER_USER = "YanzzOWNER";
+    const OWNER_PASS = "27051210#$+-";
+    const MEMBER_USER = "YanzzMEMBER";
+    const MEMBER_PASS = "12345678";
+
+    const defaultStok = `⚡ RVERX GENOCIDE STOK ⚡
+🔥 DRIP CLINET 10K
+🔥 EASY DRAG XAPK 10K
+🔥 AIMLOCK 75% 4K
+🔥 HEADLOCK 75% 5K
+🔥 XIT DRAG HS 99% 75K
+🔥 D4RK SH0T VIP 80K
+🔥 FULL FILE GACOR
+________________________________
+MINAT? PM OWNER`;
+
+    // DOM elements
+    const editListArea = document.getElementById("editList");
+    const saveListBtn = document.getElementById("saveBtn");
+    const listContainer = document.getElementById("listContainer");
+    const logoutTop = document.getElementById("logoutTop");
+    const navDiv = document.getElementById("mainNav");
+    const keyNavBtn = document.getElementById("keyNavBtn");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+    const closeSidebar = document.getElementById("closeSidebar");
+    const fingerprintArea = document.getElementById("fingerprintArea");
+    const loginBtn = document.getElementById("loginBtn");
+
+    function switchPage(pageName) {
+        const pages = ['login', 'register', 'main', 'list', 'digital', 'keygen'];
+        pages.forEach(p => {
+            const el = document.getElementById(`page-${p}`);
+            if(el) el.classList.remove('active');
+        });
+        document.getElementById(`page-${pageName}`).classList.add('active');
+        if(pageName !== 'login' && pageName !== 'register') {
+            menuToggle.style.display = "flex";
+        } else {
+            menuToggle.style.display = "none";
+            if(sidebar) sidebar.classList.remove('open');
+        }
+    }
+
+    function toggleSidebar() { sidebar.classList.toggle('open'); }
+    menuToggle.onclick = toggleSidebar;
+    closeSidebar.onclick = () => sidebar.classList.remove('open');
+
+    function reportBug() { waLink(`Halo%20kak%20saya%20laporkan%20bug%20di%20Rverx`); }
+    function aboutApp() { showNotif("⚠️ RVERX GENOCIDE EDISI, DICIPTAIN OLEH YANZZ. KENDALA LAPOR 082164463311. KALO MAU LEBIH GACOR BELI KEY, JANGAN GRATISAN WKWKWK", 4500); }
+    function contactDev() { waLink(`Saya%20butuh%20bantuan%20Rverx`); }
+    function buyKey() { waLink(`Saya%20mau%20beli%20key%20RVERX%20premium`); }
+    function waLink(msg) { window.open(`https://wa.me/${DEV_NUMBER}?text=${msg}`, "_blank"); showNotif(`📱 Membuka WhatsApp`, 1300); }
+
+    function generateFingerprint() { return 'fp_' + Math.random().toString(36).substring(2) + Date.now().toString(36); }
+    function registerFingerprint() {
+        let user = document.getElementById("regUsername").value.trim();
+        let pass = document.getElementById("regPassword").value;
+        if(user !== OWNER_USER || pass !== OWNER_PASS) { showNotif("❌ Hanya YanzzOWNER!", 1800); return; }
+        let fp = generateFingerprint();
+        fingerprints[user] = fp;
+        localStorage.setItem("fingerprints", JSON.stringify(fingerprints));
+        showNotif("✅ Sidik jari berhasil didaftarkan!", 1800);
+        setTimeout(() => switchPage('login'), 1500);
+    }
+
+    function authenticateWithFingerprint() {
+        let input = document.getElementById("loginUsername").value.trim();
+        if(input !== OWNER_USER) { showNotif("❌ Hanya admin pakai sidik jari", 1800); return; }
+        let savedFp = fingerprints[input];
+        if(!savedFp) { showNotif("🔐 Daftar sidik jari dulu!", 1500); switchPage('register'); return; }
+        let confirmFp = prompt("🔒 VERIFIKASI SIDIK JARI\nTekan OK untuk konfirmasi");
+        if(confirmFp !== null) {
+            role = "admin";
+            currentUser = input;
+            afterLoginSuccess();
+        } else { showNotif("❌ Verifikasi gagal", 1500); }
+    }
+
+    function processLogin() {
+        let input = document.getElementById("loginUsername").value.trim();
+        if(!input) { showNotif("Masukkan username / key", 1500); return; }
+        if(input === MEMBER_USER) {
+            let passInput = prompt("🔒 PASSWORD MEMBER:");
+            if(passInput === MEMBER_PASS) {
+                role = "member";
+                currentUser = MEMBER_USER;
+                afterLoginSuccess();
+                showNotif("✅ MEMBER LOGIN (1 hari akses)", 1800);
+                return;
+            } else { showNotif("❌ Password member salah!", 1500); return; }
+        }
+        if(keys[input]) {
+            let keyData = keys[input];
+            if(keyData.used) { showNotif("❌ KEY SUDAH DIPAKAI!", 2000); return; }
+            if(Date.now() > keyData.exp) { showNotif("❌ KEY EXPIRED!", 1800); return; }
+            keyData.used = true;
+            localStorage.setItem("keys", JSON.stringify(keys));
+            role = "prem";
+            currentUser = input;
+            afterLoginSuccess();
+            showNotif("✅ KEY PREMIUM (sekali pakai)", 1800);
+            return;
+        }
+        if(input === OWNER_USER) {
+            fingerprintArea.style.display = "block";
+            loginBtn.innerText = "🔓 LOGIN DENGAN SIDIK JARI";
+            loginBtn.onclick = () => authenticateWithFingerprint();
+            showNotif("🔐 Admin: gunakan sidik jari", 1500);
+            return;
+        }
+        showNotif("❌ Username/Key tidak valid!", 1800);
+    }
+
+    function afterLoginSuccess() {
+        if(role === "admin") {
+            keyNavBtn.style.display = "block";
+            if(editListArea) editListArea.style.display = "block";
+            if(saveListBtn) saveListBtn.style.display = "block";
+        }
+        navDiv.style.display = "flex";
+        logoutTop.style.display = "block";
+        menuToggle.style.display = "flex";
+        switchPage('main');
+        loadListUI();
+        applyRoleBugs();
+        fingerprintArea.style.display = "none";
+        loginBtn.innerText = "🔓 LOGIN 🔓";
+        loginBtn.onclick = processLogin;
+    }
+
+    function applyRoleBugs() {
+        let bugSelect = document.getElementById("bugType");
+        if(!bugSelect) return;
+        if(role === "member") {
+            for(let opt of bugSelect.options) opt.disabled = (opt.value !== "DELAY HARD");
+            bugSelect.value = "DELAY HARD";
+        } else {
+            for(let opt of bugSelect.options) opt.disabled = false;
+        }
+    }
+
+    function loadListUI() {
+        let stored = localStorage.getItem("rverx_stok");
+        let data = (stored && stored.trim()) ? stored : defaultStok;
+        if(editListArea) editListArea.value = data;
+        renderList(data);
+    }
+    function renderList(text) {
+        if(!listContainer) return;
+        let lines = text.split("\n");
+        listContainer.innerHTML = "";
+        for(let line of lines) {
+            let div = document.createElement("div");
+            div.className = "stok-item";
+            div.innerText = line;
+            listContainer.appendChild(div);
+        }
+    }
+    function saveList() {
+        if(!editListArea) return;
+        localStorage.setItem("rverx_stok", editListArea.value);
+        renderList(editListArea.value);
+        showNotif("📁 STOK DISIMPAN", 1000);
+    }
+    function resetForm() { document.getElementById("number").value = ""; showNotif("⭕ RESET", 700); }
+
+    let currentInterval = null;
+    function run() {
+        let num = document.getElementById("number").value.trim();
+        let type = document.getElementById("bugType").value;
+        if(!num || num.length < 8) { showNotif("⚠️ Nomor valid 62xxxx", 1500); return; }
+        if(role === "member" && type !== "DELAY HARD") type = "DELAY HARD";
+        const notifDiv = document.getElementById("notif");
+        notifDiv.style.display = "block";
+        if(currentInterval) clearInterval(currentInterval);
+        let percent = 0;
+        let isBrutal = (type === "MASS CRASH" || type === "GENOCIDE DDOS");
+        notifDiv.innerHTML = `🎯 TARGET: ${num}<br>💣 ${type}<br>⚙️ 0% ${isBrutal ? '💀 BRUTAL MODE 💀' : ''}`;
+        currentInterval = setInterval(() => {
+            let step = Math.floor(Math.random() * 25) + 12;
+            percent += step;
+            if(percent >= 100) {
+                percent = 100;
+                clearInterval(currentInterval);
+                currentInterval = null;
+                let extra = "";
+                if(type === "MASS CRASH") extra = "🔥 SERVER CRASH! MULTI THREAD HIJACK 🔥";
+                else if(type === "GENOCIDE DDOS") extra = "☠️ GENOCIDE DDOS! ALL PORTS FLOODED ☠️";
+                else extra = "💀 RVERX GENOCIDE ACTIVATED 💀";
+                notifDiv.innerHTML = `✅ TARGET: ${num}<br>🔥 ${type} SUCCESS!<br>${extra}`;
+                setTimeout(() => { if(notifDiv) notifDiv.style.display = "none"; }, 3800);
+            } else {
+                notifDiv.innerHTML = `🎯 TARGET: ${num}<br>💣 ${type}<br>⚙️ PROGRESS: ${percent}% ${isBrutal ? '💀' : ''}`;
+            }
+        }, 140);
+    }
+
+    function chatNow() {
+        let target = document.getElementById("whatsappTarget").value.trim();
+        if(!target) { showNotif("Masukkan nomor target", 1400); return; }
+        let clean = target.replace(/[^0-9]/g, '');
+        if(!clean.startsWith('62')) clean = '62' + clean;
+        window.open(`https://wa.me/${clean}?text=Halo%20dari%20Rverx%20Genocide`, "_blank");
+        showNotif("💬 Membuka chat", 1200);
+    }
+    function orderNow() { window.open(`https://wa.me/${DEV_NUMBER}?text=Saya%20mau%20order%20bug%20RVERX`, "_blank"); }
+    function openLink(url) { window.open(url, "_blank"); }
+    function generateKey() {
+        let keyVal = document.getElementById("newKey").value.trim();
+        let dur = parseInt(document.getElementById("durasi").value);
+        if(!keyVal) { alert("Masukkan key!"); return; }
+        if(keys[keyVal]) { alert("Key sudah ada!"); return; }
+        let expired = Date.now() + (dur * 86400000);
+        keys[keyVal] = { exp: expired, used: false };
+        localStorage.setItem("keys", JSON.stringify(keys));
+        alert(`🔑 KEY ${keyVal} | ${dur===9999?"PERMANEN":dur+" Hari"} | 1x pakai`);
+        document.getElementById("newKey").value = "";
+        showNotif("Key siap digunakan!", 1200);
+    }
+    function logout() { localStorage.clear(); location.reload(); }
+    function showNotif(msg, duration) {
+        let n = document.getElementById("notif");
+        if(!n) return;
+        n.innerHTML = msg;
+        n.style.display = "block";
+        setTimeout(() => { if(n) n.style.display = "none"; }, duration);
+    }
+
+    // MATRIX RAIN EFFECT
+    function initMatrix() {
+        let canvas = document.createElement("canvas");
+        canvas.style.position = "fixed";
+        canvas.style.top = "0";
+        canvas.style.left = "0";
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+        canvas.style.pointerEvents = "none";
+        canvas.style.zIndex = "-1";
+        canvas.style.opacity = "0.15";
+        document.body.appendChild(canvas);
+        let ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let columns = Math.floor(canvas.width / 20);
+        let drops = new Array(columns).fill(1);
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0f0";
+            ctx.font = "15px monospace";
+            for(let i=0; i<drops.length; i++) {
+                let text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                ctx.fillText(text, i*20, drops[i]*20);
+                if(drops[i]*20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 55);
+    }
+    initMatrix();
+
+    if(!localStorage.getItem("rverx_stok")) localStorage.setItem("rverx_stok", defaultStok);
+    setTimeout(() => { if(document.getElementById("intro")) forceSkipIntro(); }, 3800);
+</script>
+</body>
+</html>
