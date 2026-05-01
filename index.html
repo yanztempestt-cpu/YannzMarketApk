@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>RVERXAPK | NEON JB FULL LENGKAP</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', 'Segoe UI', 'Poppins', monospace; }
+    body { background: radial-gradient(circle at 20% 30%, #0A0F1E, #010101); color: #00FFFF; padding-bottom: 85px; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #001a33; }
+    ::-webkit-scrollbar-thumb { background: #00ccff; border-radius: 10px; }
+    .container { max-width: 600px; margin: 0 auto; padding: 18px 16px 30px; }
+    .glass-card {
+      background: rgba(0, 20, 40, 0.75); backdrop-filter: blur(14px); border-radius: 28px;
+      padding: 20px 16px; margin: 14px 0; border: 1px solid #00ccff80; box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+    }
+    .btn-premium {
+      background: #001a2f; border: 1px solid #00ccffaa; border-radius: 60px; padding: 12px 16px;
+      text-align: center; font-weight: bold; cursor: pointer; color: #00ffff; width: 100%; transition: 0.1s;
+    }
+    .btn-premium:active { transform: scale(0.97); background: #00ccff; color: #000; border-color: #fff; }
+    .btn-gold { background: #004466; border-color: #00ffff; color: #e0ffff; }
+    input, textarea, select {
+      background: #001a2a; border: 1px solid #00ccffaa; padding: 12px; border-radius: 60px;
+      color: cyan; width: 100%; margin: 8px 0;
+    }
+    .flex-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+    .produk-card, .warung-card, .chat-item, .grup-item {
+      background: #001a2abb; border-radius: 20px; padding: 12px; border: 1px solid #00ccff60; margin-bottom: 8px;
+    }
+    .badge { background: #00ccff20; border-radius: 60px; padding: 4px 12px; font-size: 11px; border: 1px solid cyan; display: inline-block; }
+    .profile-pic { width: 60px; height: 60px; border-radius: 60px; object-fit: cover; border: 2px solid cyan; }
+    .produk-img { width: 60px; height: 60px; border-radius: 16px; object-fit: cover; border: 1px solid cyan; margin-top: 8px; }
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; width: 100%; background: #000c17ee; backdrop-filter: blur(20px);
+      border-top: 1px solid cyan; display: flex; justify-content: space-around; padding: 8px 8px 18px; z-index: 200;
+    }
+    .nav-item { text-align: center; font-size: 11px; font-weight: bold; color: cyan; cursor: pointer; flex: 1; padding: 6px 0; border-radius: 34px; }
+    .nav-item.active { background: cyan; color: black; }
+    .bottom-page { display: none; animation: fade 0.2s; }
+    .active-bottom-page { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .video-frame { width: 100%; border-radius: 24px; overflow: hidden; margin: 12px 0; }
+    video { width: 100%; border-radius: 24px; }
+    hr { margin: 16px 0; border-color: cyan; }
+    .chat-bubble { background: #001a2f; border-radius: 20px; padding: 8px 12px; margin: 6px 0; border-left: 4px solid cyan; max-width: 85%; }
+    .chat-img { max-width: 200px; border-radius: 16px; margin-top: 5px; cursor: pointer; }
+    .upload-area { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 10px 0; }
+    .preview-img { width: 70px; height: 70px; border-radius: 16px; object-fit: cover; border: 1px solid cyan; background: #001a2a; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- REGISTER PAGE dengan upload foto profil -->
+  <div id="registerPage">
+    <div class="glass-card" style="text-align:center;">
+      <h2>🌀 RVERXAPK JB NEON</h2>
+      <p>BUAT AKUN DULU YA AYANG</p>
+      
+      <input type="text" id="regName" placeholder="MASUKAN NAMA ANDA" value="">
+      <input type="tel" id="regNoHp" placeholder="MASUKAN NO WA (62xxxxxxxxxx)" value="">
+      
+      <div class="upload-area">
+        <img id="previewFotoProfil" class="preview-img" src="https://i.pravatar.cc/100?img=7">
+        <div style="flex:1">
+          <input type="file" id="regFoto" accept="image/*" style="padding:8px;">
+        </div>
+      </div>
+      
+      <div class="flex-row" style="justify-content:center; margin-top:8px;">
+        <span class="badge">__________★__________</span>
+      </div>
+      <p style="font-size:12px; margin:8px 0;">WAJIB ISI ⚓🤬</p>
+      
+      <button class="btn-premium btn-gold" id="createAccountBtn">✨ BUAT AKUN & MASUK ✨</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboardPage" style="display:none;">
+    <div class="glass-card">
+      <div class="flex-row" style="justify-content: space-between;">
+        <div class="flex-row"><img id="profileImg" class="profile-pic"><div><h3 id="displayName">-</h3><p id="displayNoHp">-</p><span class="badge" id="membershipBadge">REGULAR</span></div></div>
+        <button class="btn-premium" id="gantiAkunBtn" style="width:auto; padding:8px 18px;">🔄 GANTI AKUN</button>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active" data-bottom="home">🏠 HOME</div>
+      <div class="nav-item" data-bottom="menu">📋 MENU</div>
+      <div class="nav-item" data-bottom="video">📺 VIDEO</div>
+      <div class="nav-item" data-bottom="saya">🙋 SAYA</div>
+      <div class="nav-item" data-bottom="chat">💬 CHAT</div>
+      <div class="nav-item" data-bottom="pasar">🏪 PASAR</div>
+      <div class="nav-item" data-bottom="info">📄 INFO</div>
+      <div class="nav-item" data-bottom="sosmed">🌐 SOSMED</div>
+    </div>
+
+    <div id="bottomHome" class="bottom-page active-bottom-page">
+      <div class="glass-card">
+        <div class="grid-2col">
+          <div class="btn-premium" data-wa="BAYAR PLN">💰 BAYAR PLN</div><div class="btn-premium" data-wa="BAYAR AIR">💧 BAYAR AIR</div>
+          <div class="btn-premium" data-wa="BAYAR PAY LATER">📱 PAY LATER</div><div class="btn-premium" data-wa="BAYAR WIFI">📶 BAYAR WIFI</div>
+          <div class="btn-premium" data-wa="ORDER LOGO JB">🎨 LOGO JB</div><div class="btn-premium" data-wa="ORDER NOKOS">🏠 NOKOS</div>
+          <div class="btn-premium" data-wa="ORDER BOT WA">🤖 BOT WA</div><div class="btn-premium" data-wa="ORDER JPM">📦 JPM</div>
+          <div class="btn-premium" data-wa="ORDER APK BUG">🐞 APK BUG</div><div class="btn-premium" data-wa="JASBUG 5K">🐞 JASBUG 5K</div>
+        </div>
+        <button class="btn-premium btn-gold" id="openCartHome">🛒 KERANJANG (<span id="homeCartCount">0</span>)</button>
+        <button class="btn-premium" id="openFavHome">❤️ FAVORIT</button>
+      </div>
+    </div>
+
+    <div id="bottomMenu" class="bottom-page"><div class="glass-card" id="officialProductContainer"></div></div>
+    <div id="bottomVideo" class="bottom-page"><div class="glass-card"><div class="video-frame"><video src="https://files.catbox.moe/vlm8ck.mp4" controls style="width:100%; border-radius:24px;"></video></div><div class="btn-premium" data-link="https://youtube.com/@king_of_file">🔔 SUBSCRIBE YOUTUBE</div></div></div>
+
+    <div id="bottomSaya" class="bottom-page">
+      <div class="glass-card">
+        <h3>🙋 PROFIL MARKET</h3>
+        <p><strong>NAMA AKUN:</strong> <span id="sayaNamaAkun">-</span></p>
+        <p><strong>NAMA MARKET:</strong> <input type="text" id="sayaNamaMarket" placeholder="Nama Market Anda"></p>
+        <p><strong>FOTO MARKET (URL):</strong> <input type="text" id="sayaFotoMarket" placeholder="URL foto market"></p>
+        <button class="btn-premium" id="simpanMarketBtn">💾 SIMPAN MARKET</button>
+        <hr>
+        <h3>🏪 BUAT WARUNG ANDA</h3>
+        <input type="text" id="warungNama" placeholder="Nama Warung">
+        <textarea id="warungKeterangan" placeholder="Keterangan Warung"></textarea>
+        <input type="text" id="warungFoto" placeholder="URL foto warung">
+        <button class="btn-premium" id="buatWarungBtn">➕ BUAT / UPDATE WARUNG</button>
+        <hr>
+        <h3>📦 TAMBAHKAN PRODUK ANDA (dengan foto dari galeri)</h3>
+        <input type="text" id="produkNama" placeholder="Nama Produk">
+        <input type="number" id="produkHarga" placeholder="Harga">
+        <div class="upload-area">
+          <img id="previewProdukImg" class="preview-img" src="https://via.placeholder.com/70?text=Foto">
+          <div style="flex:1">
+            <input type="file" id="produkFoto" accept="image/*" style="padding:8px;">
+          </div>
+        </div>
+        <button class="btn-premium" id="tambahProdukBtn">➕ TAMBAH PRODUK</button>
+        <div id="produkSayaList"></div>
+      </div>
+    </div>
+
+    <div id="bottomChat" class="bottom-page">
+      <div class="glass-card">
+        <div class="flex-row"><button class="btn-premium" id="buatGrupBtn">👥 BUAT GRUP BARU</button><button class="btn-premium" id="chatPrivasiBtn">💬 CHAT PRIBADI</button></div>
+        <div class="flex-row"><input type="text" id="kodeUndangan" placeholder="Kode undangan grup"><button class="btn-premium" id="gabungGrupBtn">➕ GABUNG GRUP</button></div>
+        <hr>
+        <div id="daftarChat" style="max-height:300px; overflow-y:auto;"></div>
+        <hr>
+        <div id="chatWindow" style="display:none;"><div class="flex-row"><h4 id="chatJudul">-</h4><button class="btn-premium" id="tutupChatBtn">❌</button></div><div id="chatIsi" style="max-height:300px; overflow-y:auto; margin:10px 0;"></div><div class="flex-row"><input type="text" id="chatPesan" placeholder="Pesan..."><button class="btn-premium" id="kirimChatBtn">📤</button></div><div class="flex-row"><input type="file" id="chatGambar" accept="image/*"><button class="btn-premium" id="kirimGambarBtn">🖼️ Kirim Gambar</button></div></div>
+      </div>
+    </div>
+
+    <div id="bottomPasar" class="bottom-page"><div class="glass-card"><h3>🏪 PASAR JB</h3><input type="text" id="cariBarang" placeholder="Cari barang..."><div id="semuaProdukList" style="max-height:500px; overflow-y:auto;"></div></div></div>
+    <div id="bottomInfo" class="bottom-page"><div class="glass-card"><h3>👑 MEMBERSHIP</h3><p>✨ REGULAR | 💎 VIP 15K | 👑 VVIP 25K</p><button class="btn-premium" id="upgradeMemberBtn">⭐ UPGRADE</button><hr><div class="btn-premium" data-wa="JASBUG 5K">🔧 JASBUG 5K</div><div class="btn-premium" data-wa="JASA SUNTIK ALL SOSMED">📱 JASA SUNTIK</div></div></div>
+    <div id="bottomSosmed" class="bottom-page"><div class="glass-card"><h3>🌐 SOSMED YANZZ</h3><div class="btn-premium" data-link="https://chat.whatsapp.com/HZJVWkSLsECBV7f1S4FpxN">💬 JOIN FJB YANZZZ</div><div class="btn-premium" data-link="https://www.instagram.com/yanzzzmarket">📸 IG YANZZ MARKET</div><div class="btn-premium" data-link="https://youtube.com/@king_of_file">▶️ SUBSCRIBE YT YANZZ</div><div class="btn-premium" data-link="https://whatsapp.com/channel/0029VbCWWN96rsQsfLC0B71f">📢 SALURAN TESTI & STOK</div></div></div>
+
+    <div id="cartModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#000c; z-index:999; padding:40px 20px;"><div class="glass-card"><h3>🛒 KERANJANG</h3><div id="cartItemsList"></div><button class="btn-premium btn-gold" id="checkoutCartBtn">💸 CHECKOUT</button><button class="btn-premium" id="closeCartBtn">TUTUP</button></div></div>
+    <div id="favModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#000c; z-index:999; padding:40px 20px;"><div class="glass-card"><h3>❤️ FAVORIT</h3><div id="favItemsList"></div><button class="btn-premium" id="closeFavBtn">TUTUP</button></div></div>
+  </div>
+</div>
+
+<script>
+  function sendWa(noHp, msg){ window.open(`https://wa.me/${noHp}?text=${encodeURIComponent(msg)}`,'_blank'); }
+  
+  const officialProducts = [
+    {id:"p1",name:"DRIP CLIENT MOD MENU VVIP PERM",price:200000},{id:"p2",name:"BR MOOD 75K PERM",price:75000},
+    {id:"a1",name:"AIMLOCK 75%",price:5000},{id:"a2",name:"AIMLOCK 80%",price:10000},{id:"a3",name:"AIMLOCK 98%",price:15000},{id:"a4",name:"AIMLOCK VIP",price:25000},
+    {id:"h1",name:"HEADLOCK 75%",price:10000},{id:"h2",name:"HEADLOCK 85%",price:20000},{id:"h3",name:"HEADLOCK 90%",price:35000},{id:"h4",name:"HEADLOCK 98%",price:50000},{id:"h5",name:"HEADLOCK VVIP",price:95000},
+    {id:"b1",name:"BODY LOCO V1",price:5000},{id:"b2",name:"BODY LOCK V2",price:20000},{id:"b3",name:"BODY LOCK V3",price:30000},
+    {id:"e1",name:"EASY DRAG BLOOD",price:5000},{id:"e2",name:"EASY DRAG 85%",price:30000},{id:"e3",name:"EASY DRAG 90%",price:50000},
+    {id:"s1",name:"STABILIZER V1",price:10000},{id:"s2",name:"STABILIZER V2",price:20000},{id:"s3",name:"STABILIZER V3",price:30000},{id:"s4",name:"STABILIZER V4",price:50000},
+    {id:"ab1",name:"AIMBOT BASSIC",price:10000},{id:"ab2",name:"AIMBOT VIP",price:20000},{id:"ab3",name:"AIMBOT VVIP",price:40000},{id:"ab4",name:"AIMBOT SVVIP",price:75000},
+    {id:"f1",name:"FIX LAG V1",price:25000},{id:"f2",name:"FIX LAG V2",price:30000},{id:"f3",name:"FIX LAG BASSIC",price:5000},
+    {id:"fs1",name:"FSA VVIP",price:30000},{id:"fs2",name:"REGE BRUTALITY",price:45000},{id:"fs3",name:"GS FILE",price:5000},{id:"fs4",name:"LIB FILE",price:5000},
+    {id:"x1",name:"XIT DRAG HS 50%",price:15000},{id:"x2",name:"XIT DRAG HS 75%",price:25000},{id:"x3",name:"XIT DRAG HS 80%",price:30000},{id:"x4",name:"XIT DRAG HS 98%",price:50000},{id:"x5",name:"XIT DRAG HS 99%",price:75000},
+    {id:"d1",name:"DARK SHOT VIP",price:80000},{id:"d2",name:"DARK SHOT VVIP",price:95000},{id:"d3",name:"DARK SHOT SVVIP",price:115000},
+    {id:"dg1",name:"APK PUSH KONTAK",price:5000},{id:"dg2",name:"APK PUSH MEMBER",price:5000},{id:"dg3",name:"APK E-KTP",price:5000},{id:"dg4",name:"APK QRIS ALLPAY",price:5000},
+    {id:"dg5",name:"PANEL SUNTIK SOSMED",price:5000},{id:"dg6",name:"PANEL NOKOS",price:5000},{id:"dg7",name:"PANEL SEWA WA",price:5000},{id:"dg8",name:"APK SW IN GB ORANG",price:5000},
+    {id:"dg9",name:"APK QRIS MERAH",price:3000},{id:"dg10",name:"APK QRIS NO KTP",price:3000},{id:"dg11",name:"APK BAN WA",price:3000},{id:"dg12",name:"APK BIOSKOP",price:2000},
+    {id:"dg13",name:"APK PS 2",price:2000},{id:"dg14",name:"AM PREM 1TH",price:5000}
+  ];
+
+  let currentUser = null, allUsers = [], groups = [], privateChats = [], currentChatId = null, currentChatType = null;
+  
+  function saveAll(){ localStorage.setItem('rverxapk_users', JSON.stringify(allUsers)); localStorage.setItem('rverxapk_groups', JSON.stringify(groups)); localStorage.setItem('rverxapk_privateChats', JSON.stringify(privateChats)); }
+  function loadAll(){ let u = localStorage.getItem('rverxapk_users'); if(u) allUsers = JSON.parse(u); let g = localStorage.getItem('rverxapk_groups'); if(g) groups = JSON.parse(g); let p = localStorage.getItem('rverxapk_privateChats'); if(p) privateChats = JSON.parse(p); }
+  function saveCurrentUser(){ if(currentUser) localStorage.setItem('rverxapk_currentUser', JSON.stringify(currentUser)); }
+  function loadCurrentUser(){ let cu = localStorage.getItem('rverxapk_currentUser'); if(cu){ currentUser = JSON.parse(cu); if(!currentUser.cart) currentUser.cart=[]; if(!currentUser.favorites) currentUser.favorites=[]; if(!currentUser.produkWarung) currentUser.produkWarung=[]; } }
+  function updateAllUsersList(){ let index = allUsers.findIndex(u => u.id === currentUser.id); let userData = { id: currentUser.id, name: currentUser.name, avatar: currentUser.avatar, noHp: currentUser.noHp, marketName: currentUser.marketName, marketFoto: currentUser.marketFoto, warung: currentUser.warung, produkWarung: currentUser.produkWarung }; if(index !== -1) allUsers[index] = userData; else allUsers.push(userData); saveAll(); }
+  
+  function refreshUI(){
+    if(!currentUser) return;
+    document.getElementById('displayName').innerText = currentUser.name; 
+    document.getElementById('displayNoHp').innerText = currentUser.noHp;
+    document.getElementById('sayaNamaAkun').innerText = currentUser.name; 
+    document.getElementById('sayaNamaMarket').value = currentUser.marketName || ""; 
+    document.getElementById('sayaFotoMarket').value = currentUser.marketFoto || "";
+    document.getElementById('profileImg').src = currentUser.avatar; 
+    document.getElementById('membershipBadge').innerText = currentUser.membership || "REGULAR";
+    document.getElementById('homeCartCount').innerText = currentUser.cart.length;
+    renderOfficialProducts(); renderProdukSaya(); renderSemuaProduk(); renderDaftarChat();
+    if(currentChatId && currentChatType) renderChatWindow();
+  }
+  
+  function renderOfficialProducts(){ let html = '<div class="grid-2col">'+officialProducts.map(p=>`<div class="produk-card"><b>${p.name}</b><br>Rp${p.price}<br><button class="btn-premium" onclick="addToCart('${p.id}')">➕</button><button class="btn-premium" onclick="toggleFavorite('${p.id}')">${currentUser.favorites.includes(p.id)?'❤️':'🤍'}</button></div>`).join('')+'</div>'; document.getElementById('officialProductContainer').innerHTML = html; }
+  window.addToCart = function(id){ let prod = officialProducts.find(p=>p.id===id); if(prod){ currentUser.cart.push({...prod}); saveCurrentUser(); refreshUI(); alert(`✅ ${prod.name} masuk keranjang`); } };
+  window.toggleFavorite = function(id){ let idx = currentUser.favorites.indexOf(id); if(idx===-1){ currentUser.favorites.push(id); alert('❤️ Favorit'); } else { currentUser.favorites.splice(idx,1); alert('💔 Hapus favorit'); } saveCurrentUser(); refreshUI(); };
+  
+  function renderProdukSaya(){ 
+    let list = currentUser.produkWarung || []; 
+    let html = '<h4>Produk Warung Anda:</h4>'+list.map((p,idx)=>`<div class="produk-card"><b>${p.nama}</b> - Rp${p.harga}${p.foto ? `<br><img src="${p.foto}" class="produk-img">` : ''}<button class="btn-premium" onclick="hapusProdukWarung(${idx})">❌</button></div>`).join(''); 
+    document.getElementById('produkSayaList').innerHTML = html; 
+  }
+  window.hapusProdukWarung = function(idx){ currentUser.produkWarung.splice(idx,1); saveCurrentUser(); updateAllUsersList(); refreshUI(); };
+  
+  function renderSemuaProduk(){ 
+    let semua = []; 
+    allUsers.forEach(user => { if(user.produkWarung) user.produkWarung.forEach(p => { semua.push({ ...p, penjual: user.name, penjualId: user.id, penjualNoHp: user.noHp }); }); }); 
+    let keyword = document.getElementById('cariBarang')?.value.toLowerCase() || ""; 
+    if(keyword) semua = semua.filter(p => p.nama.toLowerCase().includes(keyword)); 
+    let html = '<div class="grid-2col">'+semua.map(p => `<div class="produk-card"><b>${p.nama}</b><br>Rp${p.harga}${p.foto ? `<br><img src="${p.foto}" class="produk-img">` : ''}<br><small>Penjual: ${p.penjual}</small><br><button class="btn-premium" onclick="chatPenjual('${p.penjualId}')">💬 Chat</button><button class="btn-premium" onclick="beliProduk('${p.penjualNoHp}','${p.nama}',${p.harga})">🛒 Beli</button></div>`).join('')+'</div>'; 
+    document.getElementById('semuaProdukList').innerHTML = html || '<p>Belum ada produk dari pengguna lain</p>'; 
+  }
+  window.beliProduk = function(noHp, nama, harga){ sendWa(noHp, `HALO MIN SAYA MAU BELI PRODUK DARI PASAR JB\n📦 ${nama}\n💰 Rp${harga}\nNAMA SAYA: ${currentUser.name}`); };
+  window.chatPenjual = function(penjualId){ let chatId = `private_${Math.min(currentUser.id, penjualId)}_${Math.max(currentUser.id, penjualId)}`; if(!privateChats.find(c => c.id === chatId)) privateChats.push({ id: chatId, user1: currentUser.id, user2: penjualId, messages: [] }); saveAll(); currentChatId = chatId; currentChatType = 'private'; renderChatWindow(); renderDaftarChat(); document.getElementById('chatWindow').style.display = 'block'; document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); document.querySelectorAll('.bottom-page').forEach(p=>p.classList.remove('active-bottom-page')); document.querySelector('.nav-item[data-bottom="chat"]').classList.add('active'); document.getElementById('bottomChat').classList.add('active-bottom-page'); };
+  
+  function renderDaftarChat(){
+    let myGroups = groups.filter(g => g.members.includes(currentUser.id));
+    let myPrivates = privateChats.filter(c => c.user1 === currentUser.id || c.user2 === currentUser.id);
+    let html = '<h4>💬 GRUP</h4>';
+    myGroups.forEach(g => { html += `<div class="chat-item" onclick="bukaGrup('${g.id}')"><div class="flex-row"><img src="${g.avatar||'https://i.pravatar.cc/50?img=5'}" width="40" style="border-radius:50%"><div><b>${g.name}</b><br>${g.members.length} anggota<br><span style="font-size:10px; color:cyan;">🔑 Kode: ${g.inviteCode}</span><button class="btn-premium" style="padding:4px 8px; font-size:10px; margin-top:4px;" onclick="event.stopPropagation(); salinKode('${g.inviteCode}')">📋 Salin</button></div></div></div>`; });
+    html += '<h4>💬 CHAT PRIBADI</h4>';
+    myPrivates.forEach(c => { let targetId = c.user1 === currentUser.id ? c.user2 : c.user1; let targetUser = allUsers.find(u => u.id === targetId); if(targetUser) html += `<div class="chat-item" onclick="bukaPrivate('${c.id}')"><div class="flex-row"><img src="${targetUser.avatar}" width="40" style="border-radius:50%"><div><b>${targetUser.name}</b></div></div></div>`; });
+    document.getElementById('daftarChat').innerHTML = html;
+  }
+  window.salinKode = function(kode){ navigator.clipboard.writeText(kode); alert("✅ Kode undangan disalin: " + kode); };
+  window.bukaGrup = function(grupId){ currentChatId = grupId; currentChatType = 'group'; renderChatWindow(); document.getElementById('chatWindow').style.display = 'block'; };
+  window.bukaPrivate = function(chatId){ currentChatId = chatId; currentChatType = 'private'; renderChatWindow(); document.getElementById('chatWindow').style.display = 'block'; };
+  function renderChatWindow(){ if(!currentChatId) return; let messages = [], title = ""; if(currentChatType === 'group'){ let group = groups.find(g => g.id === currentChatId); if(group){ messages = group.messages || []; title = group.name; } } else { let chat = privateChats.find(c => c.id === currentChatId); if(chat){ messages = chat.messages || []; let targetId = chat.user1 === currentUser.id ? chat.user2 : chat.user1; let targetUser = allUsers.find(u => u.id === targetId); title = targetUser ? targetUser.name : "Private Chat"; } } document.getElementById('chatJudul').innerHTML = title; let html = messages.map(m => `<div class="chat-bubble"><b>${m.nama}:</b> ${m.pesan}${m.gambar ? `<br><img src="${m.gambar}" class="chat-img" onclick="window.open('${m.gambar}')">` : ''}</div>`).join(''); document.getElementById('chatIsi').innerHTML = html; setTimeout(() => { document.getElementById('chatIsi').scrollTop = document.getElementById('chatIsi').scrollHeight; }, 100); }
+  function kirimPesan(){ let pesan = document.getElementById('chatPesan').value; if(!pesan && !document.getElementById('chatGambar').files[0]) return; let msgObj = { nama: currentUser.name, pesan: pesan || "(gambar)", gambar: null, waktu: Date.now() }; if(currentChatType === 'group'){ let group = groups.find(g => g.id === currentChatId); if(group){ if(!group.messages) group.messages=[]; group.messages.push(msgObj); saveAll(); } } else { let chat = privateChats.find(c => c.id === currentChatId); if(chat){ if(!chat.messages) chat.messages=[]; chat.messages.push(msgObj); saveAll(); } } renderChatWindow(); document.getElementById('chatPesan').value=''; }
+  function kirimGambar(file){ let reader = new FileReader(); reader.onload = function(e){ let msgObj = { nama: currentUser.name, pesan: "📷 Gambar", gambar: e.target.result, waktu: Date.now() }; if(currentChatType === 'group'){ let group = groups.find(g => g.id === currentChatId); if(group){ if(!group.messages) group.messages=[]; group.messages.push(msgObj); saveAll(); } } else { let chat = privateChats.find(c => c.id === currentChatId); if(chat){ if(!chat.messages) chat.messages=[]; chat.messages.push(msgObj); saveAll(); } } renderChatWindow(); }; reader.readAsDataURL(file); }
+  function buatGrupBaru(){ let nama = prompt("Nama Grup:"); if(!nama) return; let avatar = prompt("URL foto grup (optional):", "https://i.pravatar.cc/100?img=3"); let newId = Date.now().toString(); let inviteCode = Math.random().toString(36).substr(2,8).toUpperCase(); groups.push({ id: newId, name: nama, avatar: avatar, adminId: currentUser.id, members: [currentUser.id], messages: [], inviteCode: inviteCode }); saveAll(); renderDaftarChat(); alert(`🎉 Grup "${nama}" dibuat!\n🔑 KODE UNDANGAN: ${inviteCode}\n\nBagikan kode ini ke teman untuk gabung.`); }
+  function gabungGrup(){ let kode = document.getElementById('kodeUndangan').value.trim(); if(!kode){ alert("Masukkan kode undangan"); return; } let group = groups.find(g => g.inviteCode === kode); if(!group){ alert("Kode undangan tidak valid"); return; } if(group.members.includes(currentUser.id)){ alert("Anda sudah tergabung"); return; } group.members.push(currentUser.id); saveAll(); renderDaftarChat(); alert(`✅ Berhasil bergabung ke grup ${group.name}`); document.getElementById('kodeUndangan').value = ''; }
+  function buatChatPribadi(){ let targetName = prompt("Masukkan nama pengguna yang ingin di chat:"); let targetUser = allUsers.find(u => u.name.toLowerCase() === targetName?.toLowerCase() && u.id !== currentUser.id); if(!targetUser){ alert("Pengguna tidak ditemukan"); return; } let chatId = `private_${Math.min(currentUser.id, targetUser.id)}_${Math.max(currentUser.id, targetUser.id)}`; if(!privateChats.find(c => c.id === chatId)) privateChats.push({ id: chatId, user1: currentUser.id, user2: targetUser.id, messages: [] }); saveAll(); renderDaftarChat(); alert(`💬 Chat dengan ${targetUser.name} dibuat`); }
+
+  // REGISTER dengan upload foto profil
+  let fotoProfilBase64 = "https://i.pravatar.cc/100?img=7";
+  document.getElementById('regFoto')?.addEventListener('change', function(e){
+    let file = e.target.files[0];
+    if(file){
+      let reader = new FileReader();
+      reader.onload = function(ev){ fotoProfilBase64 = ev.target.result; document.getElementById('previewFotoProfil').src = fotoProfilBase64; };
+      reader.readAsDataURL(file);
+    }
+  });
+  
+  document.getElementById('createAccountBtn')?.addEventListener('click',()=>{
+    let name = document.getElementById('regName').value.trim();
+    let noHp = document.getElementById('regNoHp').value.trim();
+    if(!name){ alert("MASUKAN NAMA ANDA!"); return; }
+    if(!noHp){ alert("MASUKAN NO WA!"); return; }
+    if(!noHp.startsWith("62")){ alert("No WA harus diawali 62 (contoh: 628123456789)"); return; }
+    currentUser = { id: Date.now(), name, noHp, avatar: fotoProfilBase64, membership:"REGULAR", cart:[], favorites:[], history:[], marketName:"", marketFoto:"", warung: null, produkWarung: [] };
+    saveCurrentUser(); updateAllUsersList();
+    document.getElementById('registerPage').style.display='none';
+    document.getElementById('dashboardPage').style.display='block';
+    refreshUI();
+  });
+  
+  // Upload foto produk
+  let fotoProdukBase64 = null;
+  document.getElementById('produkFoto')?.addEventListener('change', function(e){
+    let file = e.target.files[0];
+    if(file){
+      let reader = new FileReader();
+      reader.onload = function(ev){ fotoProdukBase64 = ev.target.result; document.getElementById('previewProdukImg').src = fotoProdukBase64; };
+      reader.readAsDataURL(file);
+    }
+  });
+  
+  document.getElementById('tambahProdukBtn')?.addEventListener('click',()=>{
+    let nama = document.getElementById('produkNama').value.trim();
+    let harga = parseInt(document.getElementById('produkHarga').value);
+    if(!nama){ alert("Masukkan nama produk!"); return; }
+    if(isNaN(harga) || harga <= 0){ alert("Masukkan harga yang valid!"); return; }
+    if(!currentUser.produkWarung) currentUser.produkWarung = [];
+    currentUser.produkWarung.push({ nama, harga, foto: fotoProdukBase64 || null });
+    saveCurrentUser(); updateAllUsersList(); refreshUI();
+    document.getElementById('produkNama').value = '';
+    document.getElementById('produkHarga').value = '';
+    document.getElementById('previewProdukImg').src = 'https://via.placeholder.com/70?text=Foto';
+    fotoProdukBase64 = null;
+    alert("✅ Produk berhasil ditambahkan!");
+  });
+  
+  document.getElementById('gantiAkunBtn')?.addEventListener('click',()=>{ localStorage.removeItem('rverxapk_currentUser'); location.reload(); });
+  document.getElementById('simpanMarketBtn')?.addEventListener('click',()=>{ currentUser.marketName = document.getElementById('sayaNamaMarket').value; currentUser.marketFoto = document.getElementById('sayaFotoMarket').value; saveCurrentUser(); updateAllUsersList(); alert("Market tersimpan"); refreshUI(); });
+  document.getElementById('buatWarungBtn')?.addEventListener('click',()=>{ currentUser.warung = { nama: document.getElementById('warungNama').value, keterangan: document.getElementById('warungKeterangan').value, foto: document.getElementById('warungFoto').value }; saveCurrentUser(); updateAllUsersList(); alert("Warung tersimpan"); refreshUI(); });
+  document.getElementById('kirimChatBtn')?.addEventListener('click',kirimPesan);
+  document.getElementById('kirimGambarBtn')?.addEventListener('click',()=>{ let file = document.getElementById('chatGambar').files[0]; if(file) kirimGambar(file); });
+  document.getElementById('buatGrupBtn')?.addEventListener('click',buatGrupBaru);
+  document.getElementById('gabungGrupBtn')?.addEventListener('click',gabungGrup);
+  document.getElementById('chatPrivasiBtn')?.addEventListener('click',buatChatPribadi);
+  document.getElementById('tutupChatBtn')?.addEventListener('click',()=>{ document.getElementById('chatWindow').style.display='none'; currentChatId=null; });
+  document.getElementById('cariBarang')?.addEventListener('input',()=>renderSemuaProduk());
+  document.getElementById('openCartHome')?.addEventListener('click',()=>{ document.getElementById('cartModal').style.display='flex'; renderCartModal(); });
+  document.getElementById('openFavHome')?.addEventListener('click',()=>{ document.getElementById('favModal').style.display='flex'; renderFavModal(); });
+  document.getElementById('closeCartBtn')?.addEventListener('click',()=>document.getElementById('cartModal').style.display='none');
+  document.getElementById('closeFavBtn')?.addEventListener('click',()=>document.getElementById('favModal').style.display='none');
+  document.getElementById('checkoutCartBtn')?.addEventListener('click',()=>{ if(currentUser.cart.length){ sendWa(currentUser.noHp, `ORDER: ${currentUser.cart.map(i=>i.name).join(', ')}`); currentUser.cart=[]; saveCurrentUser(); refreshUI(); alert("Checkout via WA"); document.getElementById('cartModal').style.display='none'; } else alert("Keranjang kosong"); });
+  document.getElementById('upgradeMemberBtn')?.addEventListener('click',()=>{ let newLevel = prompt('REGULAR, VIP, VVIP'); if(newLevel && ['REGULAR','VIP','VVIP'].includes(newLevel)){ currentUser.membership = newLevel; saveCurrentUser(); refreshUI(); } });
+  function renderCartModal(){ let html=''; let total=0; currentUser.cart.forEach((item,idx)=>{ total+=item.price; html+=`<div class="flex-row">${item.name} - Rp${item.price}<button onclick="removeFromCart(${idx})">❌</button></div>`; }); html+=`<b>Total: Rp${total}</b>`; document.getElementById('cartItemsList').innerHTML=html||'Kosong'; }
+  window.removeFromCart = function(idx){ currentUser.cart.splice(idx,1); saveCurrentUser(); refreshUI(); renderCartModal(); };
+  function renderFavModal(){ let favs = officialProducts.filter(p=>currentUser.favorites.includes(p.id)); document.getElementById('favItemsList').innerHTML = favs.map(p=>`<div class="flex-row">${p.name} - Rp${p.price}<button onclick="addToCart('${p.id}')">➕</button></div>`).join('')||'Kosong'; }
+  document.querySelectorAll('.nav-item').forEach(btn=>{ btn.addEventListener('click',()=>{ document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); document.querySelectorAll('.bottom-page').forEach(p=>p.classList.remove('active-bottom-page')); btn.classList.add('active'); document.getElementById(`bottom${btn.getAttribute('data-bottom').charAt(0).toUpperCase()+btn.getAttribute('data-bottom').slice(1)}`).classList.add('active-bottom-page'); }); });
+  document.addEventListener('click',(e)=>{ let wa = e.target.closest('[data-wa]'); if(wa) sendWa(currentUser?.noHp || "6282164463311", `HALO MIN ORDER\n📦 ${wa.getAttribute('data-wa')}\nNAMA: ${currentUser?.name||'User'}`); let link = e.target.closest('[data-link]'); if(link) window.open(link.getAttribute('data-link'), '_blank'); });
+  
+  loadAll(); loadCurrentUser();
+  if(currentUser){ document.getElementById('registerPage').style.display='none'; document.getElementById('dashboardPage').style.display='block'; refreshUI(); }
+  else{ document.getElementById('registerPage').style.display='block'; document.getElementById('dashboardPage').style.display='none'; }
+</script>
+</body>
+</html>
